@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gestionar Reservaciones</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen"
+      href="utiles/bootstrap-5.3.3-dist/css/bootstrap.min.css"
+    />
+    <script src="utiles/bootstrap-5.3.3-dist/js/bootstrap.min.js"></script>
+    <script src="main.js"></script>
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h1 class="text-center">Gestionar Reservaciones</h1>
+      <button
+        type="button"
+        class="btn btn-primary mb-3"
+        data-bs-toggle="modal"
+        data-bs-target="#addUserModal"
+      >
+        Añadir Nuevo Usuario
+      </button>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre de Usuario</th>
+            <th>Nacionalidad</th>
+            <th>Contenido</th>
+            <th>Email</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="userTableBody">
+          <!-- Los datos se añadirán aquí dinámicamente -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="addUserModal"
+      tabindex="-1"
+      aria-labelledby="addUserModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addUserModalLabel">
+              Añadir Nuevo Usuario
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="addUserForm" class="needs-validation" novalidate>
+              <div class="mb-3">
+                <label for="userId" class="form-label">ID</label>
+                <input type="text" class="form-control" id="userId" required />
+                <div class="invalid-feedback">
+                  Por favor, introduce un ID válido.
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="userName" class="form-label"
+                  >Nombre de Usuario</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="userName"
+                  required
+                />
+                <div class="invalid-feedback">
+                  Por favor, introduce un nombre de usuario válido.
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="destinationCountry" class="form-label"
+                  >Nacionalidad</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="destinationCountry"
+                  required
+                />
+                <div class="invalid-feedback">
+                  Por favor, introduce una nacionalidad válida.
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="arrivalCountry" class="form-label">Contenido</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="arrivalCountry"
+                  required
+                />
+                <div class="invalid-feedback">
+                  Por favor, introduce contenido válido.
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="userEmail" class="form-label">Email</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="userEmail"
+                  required
+                />
+                <div class="invalid-feedback">
+                  Por favor, introduce un email válido.
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary">Añadir</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var form = document.getElementById("addUserForm");
+        form.addEventListener(
+          "submit",
+          function (event) {
+            if (!form.checkValidity()) {
+              event.preventDefault();
+              event.stopPropagation();
+            }
+            form.classList.add("was-validated");
+          },
+          false
+        );
+
+        document
+          .getElementById("addUserForm")
+          .addEventListener("submit", function (e) {
+            e.preventDefault();
+            var id = document.getElementById("userId").value;
+            var name = document.getElementById("userName").value;
+            var destination =
+              document.getElementById("destinationCountry").value;
+            var arrival = document.getElementById("arrivalCountry").value;
+            var email = document.getElementById("userEmail").value;
+
+            // Validación personalizada para el email
+            var emailRegex = /^[a-zA-Z0-9._-]+@gmail.com$/;
+            if (!emailRegex.test(email)) {
+              alert(
+                "El email no es válido. Debe tener al menos 5 letras y terminar en @gmail.com."
+              );
+              return;
+            }
+
+            // Aquí puedes añadir la lógica para añadir los datos a la tabla
+            var tbody = document.getElementById("userTableBody");
+            var tr = document.createElement("tr");
+            tr.innerHTML = `
+                    <td>${id}</td>
+                    <td>${name}</td>
+                    <td>${destination}</td>
+                    <td>${arrival}</td>
+                    <td>${email}</td>
+                    <td>
+                        <button class="btn btn-warning">Modificar</button>
+                        <button class="btn btn-danger">Eliminar</button>
+                    </td>
+                `;
+            tbody.appendChild(tr);
+
+            // Cerrar el modal
+            var modal = new bootstrap.Modal(
+              document.getElementById("addUserModal")
+            );
+            modal.hide();
+          });
+      });
+    </script>
+  </body>
+</html>

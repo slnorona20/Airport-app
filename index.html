@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen"
+      href="utiles/bootstrap-5.3.3-dist/css/bootstrap.min.css"
+    />
+    <script src="utiles/bootstrap-5.3.3-dist/js/bootstrap.min.js"></script>
+    <script src="main.js"></script>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container">
+        <a class="navbar-brand fs-1" href="#">AEROTRAVELS</a>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-3 columna-izquierda">
+          <div class="d-flex flex-column align-items-start ms-auto mt-4">
+            <a href="gestionar_usuario.html" class="btn btn-primary mb-3"
+              >Usuarios</a
+            >
+            <a href="gestionar_reservaciones.html" class="btn btn-primary mb-3"
+              >Reservaciones</a
+            >
+            <a href="gestionar_vuelos.html" class="btn btn-primary mb-3"
+              >Vuelos</a
+            >
+            <a href="gestionar_quejas.html" class="btn btn-primary mb-3"
+              >Quejas</a
+            >
+          </div>
+        </div>
+        <div class="col-7">
+          <p class="lead" id="contenidoPrincipal">
+            Aerotravels es una aplicación diseñada para gestionar procesos de un
+            aeropuerto y permitir a los clientes reservar vuelos desde la
+            comodidad de sus hogares. Con Aerotravels, puedes realizar
+            reservaciones, gestionar tu itinerario de viaje, y recibir
+            actualizaciones en tiempo real sobre tus vuelos. ¡Descubre la
+            facilidad de viajar con Aerotravels!
+          </p>
+        </div>
+        <div class="col-2">
+          <h5 class="text-center mt-4">Información útil</h5>
+          <div class="card mt-3">
+            <img
+              src="ruta/a/tu/imagen.jpg"
+              class="card-img-top"
+              alt="Imagen descriptiva"
+            />
+            <div class="card-body">
+              <h5 class="card-title">Acerca de Aerotravels</h5>
+              <p class="card-text">
+                Aerotravels es tu socio en la comodidad y seguridad para tus
+                viajes.
+              </p>
+              <a href="#" class="btn btn-primary" id="readMoreBtn">Leer más</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      
+    > <div class="position-absolute bottom-0 start-50 translate-middle-x">
+      <div class="contact-info text-center">
+        <p>
+          Correo: <a href="mailto:info@aerotravels.com">info@aerotravels.com</a>
+        </p>
+        <p>Teléfono: +1 800-123-4567</p>
+      </div>
+    </div>
+    <script>
+      document
+        .getElementById("readMoreBtn")
+        .addEventListener("click", function (e) {
+          e.preventDefault();
+          document.getElementById("contenidoPrincipal").innerHTML = `
+          <p>AeroTravels es una empresa líder en la gestión de aeropuertos, dedicada a optimizar la experiencia de viaje aéreo tanto para pasajeros como para aerolíneas. Con una visión centrada en la innovación y la eficiencia, AeroTravels ofrece un amplio rango de servicios que abarcan desde la operación y mantenimiento de las instalaciones aeroportuarias hasta la gestión de la seguridad y el tráfico aéreo.
+
+Servicios Ofrecidos:
+
+Gestión Operativa: Incluye la coordinación de vuelos, manejo de equipajes, y servicios de atención al cliente.
+Mantenimiento de Infraestructura: Asegura que las pistas, terminales y sistemas de comunicación funcionen a la perfección.
+Seguridad Aeroportuaria: Implementa protocolos de seguridad rigurosos para proteger a pasajeros y empleados.
+Control de Tráfico Aéreo: Gestiona las operaciones de despegue y aterrizaje para garantizar la seguridad y eficiencia del espacio aéreo.
+Servicios Comerciales: Desarrolla áreas comerciales dentro del aeropuerto para mejorar la experiencia del viajero.
+</p>
+        `;
+        });
+    </script>
+  </body>
+</html>
