@@ -76,5 +76,20 @@ namespace AirportAPI.Classes
                 throw;
             }
         }
+
+        public int DeleteUser(int userId)
+        {
+            try
+            {
+                User user = userList[userId];
+                userList.Remove(user);
+
+                return userId;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }
