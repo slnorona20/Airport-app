@@ -157,106 +157,75 @@ input:hover, button:hover {
         </div>
     
         <script>
-			// Aquí irá el código JavaScript
-			document.addEventListener('DOMContentLoaded', function() {
-					// Función para añadir un nuevo usuario
-					document.getElementById('addUserForm').addEventListener('submit', function(e) {
-					e.preventDefault();
-					var id = document.getElementById('userId').value;
-					var name = document.getElementById('userName').value;
-					var destination = document.getElementById('destinationCountry').value;
-					var arrival = document.getElementById('arrivalCountry').value;
-					addUser(id, name, destination, arrival);
-					this.reset();
-				}
-			});
+            // Aquí irá el código JavaScript
+            document.addEventListener('DOMContentLoaded', function() {
+    // Función para añadir un nuevo usuario
+    document.getElementById('addUserForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        var id = document.getElementById('userId').value;
+        var name = document.getElementById('userName').value;
+        var destination = document.getElementById('destinationCountry').value;
+        var arrival = document.getElementById('arrivalCountry').value;
+        addUser(id, name, destination, arrival);
+        this.reset();
+    });
 
-			// Función para añadir un usuario a la tabla
-			function addUser(id, name, destination, arrival) {
-				fetch('localhost:900/api/user/1', {
-				  method: 'POST',
-				  headers: {
-					'Content-Type': 'application/json',
-					// Add any additional headers if needed
-				  },
-				  body: JSON.stringify({
-					UserId:      id,
-					UserName:    name,
-					Origin:      destination,
-					Destination: arrival
-				  })
-				})
-				.then(response => {
-					if (!response.ok) {
-					  throw new Error('Network response was not ok');
-					}
-					return response.json();
-				})
-				.then(data => {
-					// Work with the data received from the API
-					console.log(data);
-				})
-				.catch(error => {
-					// Handle any errors that occurred during the fetch
-					console.error('Error fetching data:', error);
-				});
-			
-				var tbody = document.getElementById('userTableBody');
-				var tr = document.createElement('tr');
-				
-				tr.innerHTML = `
-					<td>${id}</td>
-					<td>${name}</td>
-					<td>${destination}</td>
-					<td>${arrival}</td>
-					<td>
-						<button class="button modify">Modificar</button>
-						<button class="button delete">Eliminar</button>
-					</td>
-				`;
-				
-				tbody.appendChild(tr);
+    // Función para añadir un usuario a la tabla
+    function addUser(id, name, destination, arrival) {
+        var tbody = document.getElementById('userTableBody');
+        var tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${id}</td>
+            <td>${name}</td>
+            <td>${destination}</td>
+            <td>${arrival}</td>
+            <td>
+                <button class="button modify">Modificar</button>
+                <button class="button delete">Eliminar</button>
+            </td>
+        `;
+        tbody.appendChild(tr);
 
-				// Añadir funcionalidad a los botones de modificación y eliminación
-				tr.querySelector('.modify').addEventListener('click', function() {
-					modifyUser(tr);
-				});
-				tr.querySelector('.delete').addEventListener('click', function() {
-					deleteUser(tr);
-				});
-			}
+        // Añadir funcionalidad a los botones de modificación y eliminación
+        tr.querySelector('.modify').addEventListener('click', function() {
+            modifyUser(tr);
+        });
+        tr.querySelector('.delete').addEventListener('click', function() {
+            deleteUser(tr);
+        });
+    }
 
-			// Función para modificar un usuario
-			function modifyUser(row) {
-				// Aquí puedes implementar la lógica para modificar un usuario
-				console.log('Modificar usuario:', row);
-			}
+    // Función para modificar un usuario
+    function modifyUser(row) {
+        // Aquí puedes implementar la lógica para modificar un usuario
+        console.log('Modificar usuario:', row);
+    }
 
-			// Función para eliminar un usuario
-			function deleteUser(row) {
-				row.parentNode.removeChild(row);
-			}
+    // Función para eliminar un usuario
+    function deleteUser(row) {
+        row.parentNode.removeChild(row);
+    }
 
-			// Función para buscar un usuario
-			document.getElementById('searchButton').addEventListener('click', function() {
-				var searchText = document.getElementById('searchInput').value;
-				var tbody = document.getElementById('userTableBody');
-				var rows = tbody.getElementsByTagName('tr');
-				for (var i = 0; i < rows.length; i++) {
-					var row = rows[i];
-					var nameCell = row.getElementsByTagName('td')[1];
-					if (nameCell) {
-						var textValue = nameCell.textContent || nameCell.innerText;
-						if (textValue.indexOf(searchText) > -1) {
-							row.style.display = "";
-						} else {
-							row.style.display = "none";
-						}
-					}
-				}
-			});
-		});
-		</script> 
+    // Función para buscar un usuario
+    document.getElementById('searchButton').addEventListener('click', function() {
+        var searchText = document.getElementById('searchInput').value;
+        var tbody = document.getElementById('userTableBody');
+        var rows = tbody.getElementsByTagName('tr');
+        for (var i = 0; i < rows.length; i++) {
+            var row = rows[i];
+            var nameCell = row.getElementsByTagName('td')[1];
+            if (nameCell) {
+                var textValue = nameCell.textContent || nameCell.innerText;
+                if (textValue.indexOf(searchText) > -1) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            }
+        }
+    });
+});
+        </script> 
        
-	</body>
+</body>
 </html>

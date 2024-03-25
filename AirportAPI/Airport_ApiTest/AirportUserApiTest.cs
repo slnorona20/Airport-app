@@ -1,4 +1,3 @@
-using AirportAPI;
 using AirportAPI.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
@@ -40,7 +39,7 @@ namespace Airport_ApiTest
             var url = $"{ApiUrl}/1";
             HttpResponseMessage response = await HttpClient.GetAsync(url);
             var responseCode = response.StatusCode;
-            //var responseContent = await response.Content.ReadAsStringAsync();
+            var responseContent = await response.Content.ReadAsStringAsync();
 
             response.EnsureSuccessStatusCode();
         }
@@ -61,7 +60,7 @@ namespace Airport_ApiTest
 
             HttpResponseMessage response = await HttpClient.PostAsync(url, stringContent);
             var responseCode = response.StatusCode;
-            //var responseContent = await response.Content.ReadAsStringAsync();
+            var responseContent = await response.Content.ReadAsStringAsync();
 
             response.EnsureSuccessStatusCode();
         }
@@ -69,21 +68,20 @@ namespace Airport_ApiTest
         [Fact]
         public async void UpdateUser_Test()
         {
-            var userId = 1;
-            var url = $"{ApiUrl}/{userId}"; 
+            var url = $"{ApiUrl}/5";
 
             User user = new User
             {
-                UserId = userId,
+                UserId = 1,
                 UserName = "Test",
                 Origin = "Cuba",
-                Destination = "Espana"
+                Destination = "España"
             };
             var stringContent = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
 
             HttpResponseMessage response = await HttpClient.PutAsync(url, stringContent);
             var responseCode = response.StatusCode;
-            //var responseContent = await response.Content.ReadAsStringAsync();
+            var responseContent = await response.Content.ReadAsStringAsync();
 
             response.EnsureSuccessStatusCode();
         }
@@ -91,12 +89,10 @@ namespace Airport_ApiTest
         [Fact]
         public async void DeleteUser_Test()
         {
-            var userId = 1;
-            var url = $"{ApiUrl}/{userId}";
-
+            var url = $"{ApiUrl}/1";
             HttpResponseMessage response = await HttpClient.DeleteAsync(url);
             var responseCode = response.StatusCode;
-            //var responseContent = await response.Content.ReadAsStringAsync();
+            var responseContent = await response.Content.ReadAsStringAsync();
 
             response.EnsureSuccessStatusCode();
         }

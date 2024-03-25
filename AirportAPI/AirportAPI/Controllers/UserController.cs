@@ -1,7 +1,10 @@
-﻿using AirportAPI.Models;
+﻿using AirportAPI.Classes;
+using AirportAPI.Exceptions;
+using AirportAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -14,7 +17,7 @@ namespace AirportAPI.Controllers
     {
         protected IAirportDatabase AirportDatabase;
 
-        public UserController(IAirportDatabase database)
+        public UserController(FileDatabase database)
         {
             AirportDatabase = database;
         }
@@ -35,7 +38,12 @@ namespace AirportAPI.Controllers
             }
             catch(Exception exc)
             {
-                return BadRequest(exc.Message);
+                if(exc is ObjectNotFoundException)
+                {
+                    return NotFound(id);
+                }
+
+                return BadRequest("Error");
             }
         }
 
@@ -55,7 +63,7 @@ namespace AirportAPI.Controllers
             }
             catch (Exception exc)
             {
-                return BadRequest(exc.Message);
+                return BadRequest("Error");
             }
         }
 
@@ -75,7 +83,12 @@ namespace AirportAPI.Controllers
             }
             catch (Exception exc)
             {
-                return BadRequest(exc.Message);
+                if (exc is ObjectNotFoundException)
+                {
+                    return NotFound(user);
+                }
+
+                return BadRequest("Error");
             }
         }
 
@@ -95,7 +108,12 @@ namespace AirportAPI.Controllers
             }
             catch (Exception exc)
             {
-                return BadRequest(exc.Message);
+                if (exc is ObjectNotFoundException)
+                {
+                    return NotFound(userId);
+                }
+
+                return BadRequest("Error");
             }
         }
     }

@@ -1,7 +1,10 @@
-﻿using AirportAPI.Models;
+﻿using AirportAPI.Exceptions;
+using AirportAPI.Models;
 using Microsoft.Extensions.Configuration;
-using System;
+using Microsoft.Extensions.Configuration.Json;
+using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace AirportAPI.Classes
@@ -11,36 +14,33 @@ namespace AirportAPI.Classes
         protected IConfiguration Configuration { get; }
         protected List<User> userList;
 
-        FileDatabase(IConfiguration configuration)
+        public FileDatabase(IConfiguration configuration)
         {
             Configuration = configuration;
 
-            userList = Configuration.GetSection("Users").Get<List<User>>();
+            userList = Configuration.GetSection("Users:Objects").Get<List<User>>();
         }
 
         public User GetUser(int userId) 
         {
-            try
+            var existingUser = userList.FirstOrDefault(x => x.UserId == userId);
+            if (existingUser == null)
             {
-                var existingUser = userList.First(x => x.UserId == userId);
-
-                return new User
-                {
-                    UserId = existingUser.UserId,
-                    UserName = existingUser.UserName,
-                    Origin = existingUser.Origin,
-                    Destination = existingUser.Destination
-                };
-            } 
-            catch (Exception ex)
-            {
-                throw;
+                throw new ObjectNotFoundException($"User not found");
             }
+
+            return new User
+            {
+                UserId = existingUser.UserId,
+                UserName = existingUser.UserName,
+                Origin = existingUser.Origin,
+                Destination = existingUser.Destination
+            };
         }
 
         public User AddUser(User user) 
         {
-            var lastUser = userList[userList.Count - 1];
+            var lastUser = userList[^1];
 
             var newUser = new User
             {
@@ -51,45 +51,56 @@ namespace AirportAPI.Classes
             };
 
             userList.Add(newUser);
+            Update("Users:Objects", userList);
+
             return newUser;
         }
 
         public User UpdateUser(User user)
         {
-            try
+            var existingUser = userList.FirstOrDefault(x => x.UserId == user.UserId);
+            if (existingUser == null)
             {
-                var existingUser = userList.First(x => x.UserId == user.UserId);
-                existingUser.UserName = user.UserName;
-                existingUser.Origin = user.Origin;
-                existingUser.Destination = user.Destination;
+                throw new ObjectNotFoundException($"User not found");
+            }
 
-                return new User
-                {
-                    UserId = existingUser.UserId,
-                    UserName = existingUser.UserName,
-                    Origin = existingUser.Origin,
-                    Destination = existingUser.Destination
-                };
-            }
-            catch (Exception ex) 
+            existingUser.UserName = user.UserName;
+            existingUser.Origin = user.Origin;
+            existingUser.Destination = user.Destination;
+
+            Update("Users:Objects", userList);
+
+            return new User
             {
-                throw;
-            }
+                UserId = existingUser.UserId,
+                UserName = existingUser.UserName,
+                Origin = existingUser.Origin,
+                Destination = existingUser.Destination
+            };
         }
 
         public int DeleteUser(int userId)
         {
-            try
+            var user = userList.FirstOrDefault(x => x.UserId == userId);
+            if (user == null)
             {
-                User user = userList[userId];
-                userList.Remove(user);
+                throw new ObjectNotFoundException($"User not found");
+            }
+            userList.Remove(user);
 
-                return userId;
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
+            Update("Users:Objects", userList);
+
+            return userId;
+        }
+
+        protected void Update(string entry, List<User> userList)
+        {
+            //Configuration["Users:Objects"] = userList.ToString();
+
+            var userListStr = userList.ToString();
+            Configuration["Users:Objects"] = userListStr;
+
+            File.WriteAllText("appsettings.json", JsonConvert.SerializeObject(Configuration.AsEnumerable(), Formatting.Indented));
         }
     }
 }
