@@ -3,27 +3,30 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-public class Startup
-{ 
-    public IConfiguration Configuration { get; } 
-
-    Startup(IConfiguration configuration)
+namespace AirportAPI
+{
+    public class Startup
     {
-        Configuration = configuration; 
-    }
+        public IConfiguration Configuration { get; }
 
-    public void ConfigureServices(IServiceCollection services)
-    {
-        services.AddScoped<IAirportDatabase>();
-        services.AddControllers();
-    }
-
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-    {
-        app.UseRouting();
-        app.UseEndpoints(endpoints =>
+        Startup(IConfiguration configuration)
         {
-            endpoints.MapControllers();
-        });
+            Configuration = configuration;
+        }
+
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddScoped<IAirportDatabase>();
+            services.AddControllers();
+        }
+
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            app.UseRouting();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
+        }
     }
 }

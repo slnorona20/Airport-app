@@ -1,3 +1,4 @@
+using AirportAPI;
 using AirportAPI.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
@@ -36,7 +37,7 @@ namespace Airport_ApiTest
         [Fact] 
         public async void GetUser_Test()
         {
-            var url = $"{ApiUrl}/5";
+            var url = $"{ApiUrl}/1";
             HttpResponseMessage response = await HttpClient.GetAsync(url);
             var responseCode = response.StatusCode;
             //var responseContent = await response.Content.ReadAsStringAsync();
@@ -59,6 +60,41 @@ namespace Airport_ApiTest
             var stringContent = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
 
             HttpResponseMessage response = await HttpClient.PostAsync(url, stringContent);
+            var responseCode = response.StatusCode;
+            //var responseContent = await response.Content.ReadAsStringAsync();
+
+            response.EnsureSuccessStatusCode();
+        }
+
+        [Fact]
+        public async void UpdateUser_Test()
+        {
+            var userId = 1;
+            var url = $"{ApiUrl}/{userId}"; 
+
+            User user = new User
+            {
+                UserId = userId,
+                UserName = "Test",
+                Origin = "Cuba",
+                Destination = "Espana"
+            };
+            var stringContent = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
+
+            HttpResponseMessage response = await HttpClient.PutAsync(url, stringContent);
+            var responseCode = response.StatusCode;
+            //var responseContent = await response.Content.ReadAsStringAsync();
+
+            response.EnsureSuccessStatusCode();
+        }
+
+        [Fact]
+        public async void DeleteUser_Test()
+        {
+            var userId = 1;
+            var url = $"{ApiUrl}/{userId}";
+
+            HttpResponseMessage response = await HttpClient.DeleteAsync(url);
             var responseCode = response.StatusCode;
             //var responseContent = await response.Content.ReadAsStringAsync();
 
