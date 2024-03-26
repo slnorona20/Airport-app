@@ -1,0 +1,12 @@
+{
+  "Users": {
+    "Objects": [
+      {
+        "UserId": 0,
+        "UserName": "Doe, John",
+        "Origin": "Havana",
+        "Destination": "Toronto"
+      }
+    ]
+  }
+}

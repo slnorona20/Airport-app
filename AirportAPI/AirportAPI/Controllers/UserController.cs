@@ -17,7 +17,7 @@ namespace AirportAPI.Controllers
     {
         protected IAirportDatabase AirportDatabase;
 
-        public UserController(FileDatabase database)
+        public UserController(JsonAirportDatabase database)
         {
             AirportDatabase = database;
         }
