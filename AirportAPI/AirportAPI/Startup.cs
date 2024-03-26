@@ -13,7 +13,6 @@ public class Startup
     public Startup(IConfiguration configuration)
     {
         Configuration = configuration;
-        var ApiKeyHaderName = Configuration.GetValue<string>("ApiKeyName");
     }
 
     public void ConfigureServices(IServiceCollection services)
