@@ -53,8 +53,8 @@ namespace Airport_ApiTest
             { 
                 UserId = 0,
                 UserName = "Test",
-                Origin = "Cuba",
-                Destination = "Canada"
+                Origin = "Havana",
+                Destination = "Madrid"
             };
             var stringContent = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
 
@@ -74,8 +74,8 @@ namespace Airport_ApiTest
             {
                 UserId = 1,
                 UserName = "Test",
-                Origin = "Cuba",
-                Destination = "España"
+                Origin = "Madrid",
+                Destination = "Varadero"
             };
             var stringContent = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
 
