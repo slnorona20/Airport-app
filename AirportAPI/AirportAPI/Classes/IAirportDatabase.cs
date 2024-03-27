@@ -1,11 +1,12 @@
 ﻿using AirportAPI.Models;
 using System;
+using System.Threading.Tasks;
 
 public interface IAirportDatabase
 {
     // User
-    User GetUser(int userId);
-    User AddUser(User user);
-    User UpdateUser(User user);
-    int DeleteUser(int userId);
+    Task<User> GetUser(int userId);
+    Task<User> AddUser(User user);
+    Task<User> UpdateUser(User user);
+    Task<int> DeleteUser(int userId);
 }

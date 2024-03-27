@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using AirportAPI.Exceptions;
 using AirportAPI.Models;
 using Microsoft.Extensions.Configuration;
@@ -26,9 +27,9 @@ namespace AirportAPI.Classes
             DatabaseConfig = configBuilder.Build();
         }
 
-        public User AddUser(User user)
+        public async Task<User> AddUser(User user)
         {
-            User newUser = ExecuteDBAccess(fileLock, () => 
+            User newUser = await ExecuteDBAccess(fileLock, () => 
             {
                 List<User> users = GetUsers(); 
                 User lastUser = users.OrderBy(x => x.UserId).ToList()[^1];
@@ -49,9 +50,9 @@ namespace AirportAPI.Classes
             return newUser;
         }
 
-        public int DeleteUser(int userId)
+        public async Task<int> DeleteUser(int userId)
         {
-            User user = ExecuteDBAccess(fileLock, () =>
+            User user = await ExecuteDBAccess(fileLock, () =>
             {
                 List<User> users = GetUsers();
                 User user = users.FirstOrDefault(x => x.UserId == userId);
@@ -75,9 +76,9 @@ namespace AirportAPI.Classes
             return user.UserId;
         }
 
-        public User GetUser(int userId)
+        public async Task<User> GetUser(int userId)
         {
-            User user = ExecuteDBAccess(fileLock, () =>
+            User user = await ExecuteDBAccess(fileLock, () =>
             {
                 List<User> users = GetUsers(); 
                 User user = users.FirstOrDefault(x => x.UserId == userId);
@@ -93,9 +94,9 @@ namespace AirportAPI.Classes
             return user;
         }
 
-        public User UpdateUser(User user)
+        public async Task<User> UpdateUser(User user)
         {
-            User updatedUser = ExecuteDBAccess(fileLock, () =>
+            User updatedUser = await ExecuteDBAccess(fileLock, () =>
             {
                 List<User> users = GetUsers(); 
                 User theUser = users.FirstOrDefault(x => x.UserId == user.UserId);
@@ -144,15 +145,21 @@ namespace AirportAPI.Classes
             File.WriteAllText(DBFileName, JsonConvert.SerializeObject(usersObjects, Formatting.Indented));
         }
 
-        protected User ExecuteDBAccess(object fileLock, Func<User> function)
+        protected async Task<User> ExecuteDBAccess(object fileLock, Func<User> function)
         {
             User result;
 
-            lock (fileLock)
+            Task<User> task = Task.Run(() =>
             {
-                result = function();
-                return result;
-            }
+                lock (fileLock)
+                {
+                    result = function();
+                    return result;
+                }
+            });
+            result = await task;
+
+            return result;
         }
     }
 }
