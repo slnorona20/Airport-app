@@ -29,8 +29,10 @@
           <tr>
             <th>ID</th>
             <th>Nombre de Usuario</th>
+            <th>Clase</th>
+            <th>Fecha de Partida</th>
             <th>Nacionalidad</th>
-            <th>Contenido</th>
+            <th>País de Destino</th>
             <th>Email</th>
             <th>Acciones</th>
           </tr>
@@ -87,8 +89,46 @@
                 </div>
               </div>
               <div class="mb-3">
+                <label for="flightClass" class="form-label">Clase</label>
+                <select class="form-select" id="flightClass" required>
+                  <option selected>Selecciona una clase</option>
+                  <option value="economy">Economía</option>
+                  <option value="premium">Premium</option>
+                  <option value="business">Negocios</option>
+                </select>
+                <div class="invalid-feedback">
+                  Por favor, selecciona una clase válida.
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="departureDate" class="form-label"
+                  >Fecha de Partida</label
+                >
+                <input
+                  type="date"
+                  class="form-control"
+                  id="departureDate"
+                  required
+                />
+                <div class="invalid-feedback">
+                  Por favor, introduce una fecha de partida válida.
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="nationality" class="form-label">Nacionalidad</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="nationality"
+                  required
+                />
+                <div class="invalid-feedback">
+                  Por favor, introduce una nacionalidad válida.
+                </div>
+              </div>
+              <div class="mb-3">
                 <label for="destinationCountry" class="form-label"
-                  >Nacionalidad</label
+                  >País de Destino</label
                 >
                 <input
                   type="text"
@@ -97,19 +137,7 @@
                   required
                 />
                 <div class="invalid-feedback">
-                  Por favor, introduce una nacionalidad válida.
-                </div>
-              </div>
-              <div class="mb-3">
-                <label for="arrivalCountry" class="form-label">Contenido</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="arrivalCountry"
-                  required
-                />
-                <div class="invalid-feedback">
-                  Por favor, introduce contenido válido.
+                  Por favor, introduce un país de destino válido.
                 </div>
               </div>
               <div class="mb-3">
@@ -159,13 +187,15 @@
             e.preventDefault();
             var id = document.getElementById("userId").value;
             var name = document.getElementById("userName").value;
-            var destination =
+            var flightClass = document.getElementById("flightClass").value;
+            var departureDate = document.getElementById("departureDate").value;
+            var nationality = document.getElementById("nationality").value;
+            var destinationCountry =
               document.getElementById("destinationCountry").value;
-            var arrival = document.getElementById("arrivalCountry").value;
             var email = document.getElementById("userEmail").value;
 
             // Validación personalizada para el email
-            var emailRegex = /^[a-zA-Z0-9._-]+@gmail.com$/;
+            var emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
             if (!emailRegex.test(email)) {
               alert(
                 "El email no es válido. Debe tener al menos 5 letras y terminar en @gmail.com."
@@ -175,16 +205,20 @@
             document.getElementById("userEmail").value = "";
             document.getElementById("userId").value = "";
             document.getElementById("userName").value = "";
+            document.getElementById("flightClass").value = "";
+            document.getElementById("departureDate").value = "";
+            document.getElementById("nationality").value = "";
             document.getElementById("destinationCountry").value = "";
-            arrival = document.getElementById("arrivalCountry").value = "";
             // Aquí puedes añadir la lógica para añadir los datos a la tabla
             var tbody = document.getElementById("userTableBody");
             var tr = document.createElement("tr");
             tr.innerHTML = `
                     <td>${id}</td>
                     <td>${name}</td>
-                    <td>${destination}</td>
-                    <td>${arrival}</td>
+                    <td>${flightClass}</td>
+                    <td>${departureDate}</td>
+                    <td>${nationality}</td>
+                    <td>${destinationCountry}</td>
                     <td>${email}</td>
                     <td>
                         <button class="btn btn-warning">Modificar</button>

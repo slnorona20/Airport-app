@@ -87,13 +87,13 @@
                 </div>
               </div>
               <div class="mb-3">
-                <label for="destinationCountry" class="form-label"
+                <label for="OriginCountry" class="form-label"
                   >Nacionalidad</label
                 >
                 <input
                   type="text"
                   class="form-control"
-                  id="destinationCountry"
+                  id="OriginCountry"
                   required
                 />
                 <div class="invalid-feedback">
@@ -101,13 +101,8 @@
                 </div>
               </div>
               <div class="mb-3">
-                <label for="arrivalCountry" class="form-label">Contenido</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="arrivalCountry"
-                  required
-                />
+                <label for="content" class="form-label">Contenido</label>
+                <input type="text" class="form-control" id="content" required />
                 <div class="invalid-feedback">
                   Por favor, introduce contenido válido.
                 </div>
@@ -159,9 +154,8 @@
             e.preventDefault();
             var id = document.getElementById("userId").value;
             var name = document.getElementById("userName").value;
-            var destination =
-              document.getElementById("destinationCountry").value;
-            var arrival = document.getElementById("arrivalCountry").value;
+            var destination = document.getElementById("OriginCountry").value;
+            var arrival = document.getElementById("content").value;
             var email = document.getElementById("userEmail").value;
 
             // Validación personalizada para el email
@@ -175,8 +169,8 @@
             document.getElementById("userEmail").value = "";
             document.getElementById("userId").value = "";
             document.getElementById("userName").value = "";
-            document.getElementById("destinationCountry").value = "";
-            arrival = document.getElementById("arrivalCountry").value = "";
+            document.getElementById("OriginCountry").value = "";
+            arrival = document.getElementById("content").value = "";
             // Aquí puedes añadir la lógica para añadir los datos a la tabla
             var tbody = document.getElementById("userTableBody");
             var tr = document.createElement("tr");

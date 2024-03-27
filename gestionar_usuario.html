@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gestionar Usuario</title>
+    <title>Gestionar usuario</title>
     <link
       rel="stylesheet"
       type="text/css"
@@ -15,7 +15,7 @@
   </head>
   <body>
     <div class="container mt-5">
-      <h1 class="text-center">Gestionar Usuario</h1>
+      <h1 class="text-center">Gestionar usuario</h1>
       <button
         type="button"
         class="btn btn-primary mb-3"
@@ -28,9 +28,10 @@
         <thead>
           <tr>
             <th>ID</th>
-            <th>Nombre de Usuario</th>
+            <th>Nombre</th>
+            <th>Apellidos</th>
+            <th>Fecha de Nacimiento</th>
             <th>Nacionalidad</th>
-            <th>Contenido</th>
             <th>Email</th>
             <th>Acciones</th>
           </tr>
@@ -73,9 +74,7 @@
                 </div>
               </div>
               <div class="mb-3">
-                <label for="userName" class="form-label"
-                  >Nombre de Usuario</label
-                >
+                <label for="userName" class="form-label">Nombre</label>
                 <input
                   type="text"
                   class="form-control"
@@ -83,33 +82,45 @@
                   required
                 />
                 <div class="invalid-feedback">
-                  Por favor, introduce un nombre de usuario válido.
+                  Por favor, introduce un nombre válido.
                 </div>
               </div>
               <div class="mb-3">
-                <label for="destinationCountry" class="form-label"
-                  >Nacionalidad</label
-                >
+                <label for="userSurname" class="form-label">Apellidos</label>
                 <input
                   type="text"
                   class="form-control"
-                  id="destinationCountry"
+                  id="userSurname"
+                  required
+                />
+                <div class="invalid-feedback">
+                  Por favor, introduce apellidos válidos.
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="birthDate" class="form-label"
+                  >Fecha de Nacimiento</label
+                >
+                <input
+                  type="date"
+                  class="form-control"
+                  id="birthDate"
+                  required
+                />
+                <div class="invalid-feedback">
+                  Por favor, introduce una fecha de nacimiento válida.
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="nationality" class="form-label">Nacionalidad</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="nationality"
                   required
                 />
                 <div class="invalid-feedback">
                   Por favor, introduce una nacionalidad válida.
-                </div>
-              </div>
-              <div class="mb-3">
-                <label for="arrivalCountry" class="form-label">Contenido</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="arrivalCountry"
-                  required
-                />
-                <div class="invalid-feedback">
-                  Por favor, introduce contenido válido.
                 </div>
               </div>
               <div class="mb-3">
@@ -159,39 +170,40 @@
             e.preventDefault();
             var id = document.getElementById("userId").value;
             var name = document.getElementById("userName").value;
-            var destination =
-              document.getElementById("destinationCountry").value;
-            var arrival = document.getElementById("arrivalCountry").value;
+            var surname = document.getElementById("userSurname").value;
+            var birthDate = document.getElementById("birthDate").value;
+            var nationality = document.getElementById("nationality").value;
             var email = document.getElementById("userEmail").value;
 
-            // Validación personalizada para el email
-            var emailRegex = /^[a-zA-Z0-9._-]+@gmail.com$/;
-            if (!emailRegex.test(email)) {
+            // Verificar que todos los campos estén llenos
+            if (id && name && surname && birthDate && nationality && email) {
+              document.getElementById("userId").value = "";
+              document.getElementById("userName").value = "";
+              document.getElementById("userSurname").value = "";
+              document.getElementById("birthDate").value = "";
+              document.getElementById("nationality").value = "";
+              document.getElementById("userEmail").value = "";
+              // Aquí puedes añadir la lógica para añadir los datos a la tabla
+              var tbody = document.getElementById("userTableBody");
+              var tr = document.createElement("tr");
+              tr.innerHTML = `
+                      <td>${id}</td>
+                      <td>${name}</td>
+                      <td>${surname}</td>
+                      <td>${birthDate}</td>
+                      <td>${nationality}</td>
+                      <td>${email}</td>
+                      <td>
+                          <button class="btn btn-warning">Modificar</button>
+                          <button class="btn btn-danger">Eliminar</button>
+                      </td>
+                 `;
+              tbody.appendChild(tr);
+            } else {
               alert(
-                "El email no es válido. Debe tener al menos 5 letras y terminar en @gmail.com."
+                "Por favor, llene todos los campos antes de añadir un nuevo usuario."
               );
-              return;
             }
-            document.getElementById("userEmail").value = "";
-            document.getElementById("userId").value = "";
-            document.getElementById("userName").value = "";
-            document.getElementById("destinationCountry").value = "";
-            arrival = document.getElementById("arrivalCountry").value = "";
-            // Aquí puedes añadir la lógica para añadir los datos a la tabla
-            var tbody = document.getElementById("userTableBody");
-            var tr = document.createElement("tr");
-            tr.innerHTML = `
-                    <td>${id}</td>
-                    <td>${name}</td>
-                    <td>${destination}</td>
-                    <td>${arrival}</td>
-                    <td>${email}</td>
-                    <td>
-                        <button class="btn btn-warning">Modificar</button>
-                        <button class="btn btn-danger">Eliminar</button>
-                    </td>
-                `;
-            tbody.appendChild(tr);
           });
       });
     </script>
