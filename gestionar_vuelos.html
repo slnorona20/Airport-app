@@ -352,38 +352,33 @@
           },
         });
       });
-      function addFlightToTable(form) {
-        form.preventDefault(); // Evita el envío del formulario por defecto
-        var flightId = $("#flightId").val();
-        var departureDate = $("#departureDate").val();
-        var arrivalDate = $("#arrivalDate").val();
-        var originCountry = $("#originCountry").val();
-        var destinationCountry = $("#destinationCountry").val();
-        var airplaneModel = $("#airplaneModel").val();
-        var maxCapacity = $("#maxCapacity").val();
-        var availablePassengers = $("#availablePassengers").val();
+      $("#addFlightForm").on("submit", function (event) {
+          event.preventDefault();
+          var flightId = $("#flightId").val();
+          var departureDate = $("#departureDate").val();
+          var arrivalDate = $("#arrivalDate").val();
+          var originCountry = $("#originCountry").val();
+          var destinationCountry = $("#destinationCountry").val();
+          var airplaneModel = $("#airplaneModel").val();
+          var maxCapacity = $("#maxCapacity").val();
+          var availablePassengers = $("#availablePassengers").val();
 
-        var newRow =
-          "<tr><td>" +
-          flightId +
-          "</td><td>" +
-          departureDate +
-          "</td><td>" +
-          arrivalDate +
-          "</td><td>" +
-          originCountry +
-          "</td><td>" +
-          destinationCountry +
-          "</td><td>" +
-          airplaneModel +
-          "</td><td>" +
-          maxCapacity +
-          "</td><td>" +
-          availablePassengers +
-          "</td></tr>";
-        $("#flightTableBody").append(newRow);
-        $("#addFlightModal").modal("hide");
-      }
+          var newRow = `
+            <tr>
+              <td>${flightId}</td>
+              <td>${departureDate}</td>
+              <td>${arrivalDate}</td>
+              <td>${originCountry}</td>
+              <td>${destinationCountry}</td>
+              <td>${airplaneModel}</td>
+              <td>${maxCapacity}</td>
+              <td>${availablePassengers}</td>
+            </tr>
+          `;
+          $("#flightTableBody").append(newRow);
+          $("#addFlightModal").modal("hide");
+        });
+      });
     </script>
   </body>
 </html>

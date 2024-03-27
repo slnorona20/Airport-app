@@ -27,8 +27,8 @@
       <table class="table table-striped">
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Nombre de Usuario</th>
+            <th>ID Usuario</th>
+            <th>ID Vuelo</th>
             <th>Clase</th>
             <th>Fecha de Partida</th>
             <th>Nacionalidad</th>
@@ -68,24 +68,22 @@
           <div class="modal-body">
             <form id="addUserForm" class="needs-validation" novalidate>
               <div class="mb-3">
-                <label for="userId" class="form-label">ID</label>
+                <label for="userId" class="form-label">ID Usuario</label>
                 <input type="text" class="form-control" id="userId" required />
                 <div class="invalid-feedback">
-                  Por favor, introduce un ID válido.
+                  Por favor, introduce un ID de usuario válido.
                 </div>
               </div>
               <div class="mb-3">
-                <label for="userName" class="form-label"
-                  >Nombre de Usuario</label
-                >
+                <label for="flightId" class="form-label">ID Vuelo</label>
                 <input
                   type="text"
                   class="form-control"
-                  id="userName"
+                  id="flightId"
                   required
                 />
                 <div class="invalid-feedback">
-                  Por favor, introduce un nombre de usuario válido.
+                  Por favor, introduce un ID de vuelo válido.
                 </div>
               </div>
               <div class="mb-3">
@@ -185,8 +183,8 @@
           .getElementById("addUserForm")
           .addEventListener("submit", function (e) {
             e.preventDefault();
-            var id = document.getElementById("userId").value;
-            var name = document.getElementById("userName").value;
+            var userId = document.getElementById("userId").value;
+            var flightId = document.getElementById("flightId").value;
             var flightClass = document.getElementById("flightClass").value;
             var departureDate = document.getElementById("departureDate").value;
             var nationality = document.getElementById("nationality").value;
@@ -204,7 +202,7 @@
             }
             document.getElementById("userEmail").value = "";
             document.getElementById("userId").value = "";
-            document.getElementById("userName").value = "";
+            document.getElementById("flightId").value = "";
             document.getElementById("flightClass").value = "";
             document.getElementById("departureDate").value = "";
             document.getElementById("nationality").value = "";
@@ -213,8 +211,8 @@
             var tbody = document.getElementById("userTableBody");
             var tr = document.createElement("tr");
             tr.innerHTML = `
-                    <td>${id}</td>
-                    <td>${name}</td>
+                    <td>${userId}</td>
+                    <td>${flightId}</td>
                     <td>${flightClass}</td>
                     <td>${departureDate}</td>
                     <td>${nationality}</td>
