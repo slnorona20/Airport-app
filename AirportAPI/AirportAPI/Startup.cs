@@ -1,14 +1,13 @@
 ﻿using AirportAPI.Classes;
-using AirportAPI.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Collections.Generic;
 
 public class Startup
 {
     public static string UserDBName;
+    public static string DBConnectionString;
 
     public IConfiguration Configuration { get; } 
 
@@ -16,7 +15,10 @@ public class Startup
     {
         Configuration = configuration;
 
-        UserDBName = Configuration.GetValue<string>("UserDBName");
+        // Only use if DB = json file
+        // UserDBName = Configuration.GetValue<string>("UserDBName");
+
+        DBConnectionString = Configuration.GetConnectionString("MySQL");
     }
 
     public void ConfigureServices(IServiceCollection services)

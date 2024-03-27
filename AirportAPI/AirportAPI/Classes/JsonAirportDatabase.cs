@@ -1,14 +1,12 @@
-﻿using AirportAPI.Exceptions;
-using AirportAPI.Models;
-using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection.Metadata;
-using System.Threading;
+using AirportAPI.Exceptions;
+using AirportAPI.Models;
+using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
+
 
 namespace AirportAPI.Classes
 {
@@ -16,7 +14,7 @@ namespace AirportAPI.Classes
     {
         protected string DBFileName { get; }
         private readonly object fileLock = new object();
-        private IConfigurationRoot Database;
+        private IConfigurationRoot DatabaseConfig;
 
         public JsonAirportDatabase()
         {
@@ -25,7 +23,7 @@ namespace AirportAPI.Classes
             string currentDirectory = Directory.GetCurrentDirectory();
             var configBuilder = new ConfigurationBuilder().SetBasePath(currentDirectory).AddJsonFile(DBFileName);
 
-            Database = configBuilder.Build();
+            DatabaseConfig = configBuilder.Build();
         }
 
         public User AddUser(User user)
@@ -134,13 +132,16 @@ namespace AirportAPI.Classes
 
         protected List<User> GetUsers()
         {
-            return Database.GetSection("Users:Objects").Get<List<User>>(); 
+            return DatabaseConfig.GetSection("Users:Objects").Get<List<User>>(); 
         }
 
         protected void SaveUsers(List<User> users)
         {
-            Database["Users:Objects"] = JsonConvert.SerializeObject(users);
-            File.WriteAllText(DBFileName, JsonConvert.SerializeObject(Database.AsEnumerable(), Formatting.Indented));
+            var dbUsers = new List<User>();
+            dbUsers.AddRange(users);
+
+            var usersObjects = new { Users = new { Objects = new List<User>(dbUsers) } };
+            File.WriteAllText(DBFileName, JsonConvert.SerializeObject(usersObjects, Formatting.Indented));
         }
 
         protected User ExecuteDBAccess(object fileLock, Func<User> function)

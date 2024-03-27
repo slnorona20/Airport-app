@@ -94,13 +94,13 @@ namespace AirportAPI.Controllers
 
         // DELETE api/<UserController>/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int userId)
+        public async Task<ActionResult> Delete(int id)
         {
             try
             {
                 Task<int> userTask = Task.Run(() =>
                 {
-                    return AirportDatabase.DeleteUser(userId);
+                    return AirportDatabase.DeleteUser(id);
                 });
 
                 int deletedUserId = await userTask;
@@ -110,7 +110,7 @@ namespace AirportAPI.Controllers
             {
                 if (exc is ObjectNotFoundException)
                 {
-                    return NotFound(userId);
+                    return NotFound(id);
                 }
 
                 return BadRequest("Error");
