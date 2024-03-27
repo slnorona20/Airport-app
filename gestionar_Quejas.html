@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gestionar Reservaciones</title>
+    <title>Gestionar Quejas</title>
     <link
       rel="stylesheet"
       type="text/css"
@@ -15,7 +15,7 @@
   </head>
   <body>
     <div class="container mt-5">
-      <h1 class="text-center">Gestionar Reservaciones</h1>
+      <h1 class="text-center">Gestionar Quejas</h1>
       <button
         type="button"
         class="btn btn-primary mb-3"
@@ -43,7 +43,7 @@
 
     <!-- Modal -->
     <div
-      class="modal fade"
+      class="modal fade dismissible"
       id="addUserModal"
       tabindex="-1"
       aria-labelledby="addUserModalLabel"
@@ -59,6 +59,7 @@
               type="button"
               class="btn-close"
               data-bs-dismiss="modal"
+              data-bs-target="addUserModal"
               aria-label="Close"
             ></button>
           </div>
@@ -123,7 +124,14 @@
                   Por favor, introduce un email válido.
                 </div>
               </div>
-              <button type="submit" class="btn btn-primary">Añadir</button>
+              <button
+                type="submit"
+                class="btn btn-primary"
+                data-bs-dismiss="modal"
+                data-bs-target="addUserModal"
+              >
+                Añadir
+              </button>
             </form>
           </div>
         </div>
@@ -164,7 +172,11 @@
               );
               return;
             }
-
+            document.getElementById("userEmail").value = "";
+            document.getElementById("userId").value = "";
+            document.getElementById("userName").value = "";
+            document.getElementById("destinationCountry").value = "";
+            arrival = document.getElementById("arrivalCountry").value = "";
             // Aquí puedes añadir la lógica para añadir los datos a la tabla
             var tbody = document.getElementById("userTableBody");
             var tr = document.createElement("tr");
@@ -180,12 +192,6 @@
                     </td>
                 `;
             tbody.appendChild(tr);
-
-            // Cerrar el modal
-            var modal = new bootstrap.Modal(
-              document.getElementById("addUserModal")
-            );
-            modal.hide();
           });
       });
     </script>

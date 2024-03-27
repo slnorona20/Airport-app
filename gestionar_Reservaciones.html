@@ -1,228 +1,199 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="RESERVACIONES" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gestionar Reservaciones</title>
-    <style>
-        /* Estilos generales */
-        a, a:visited, a:hover, a:active {
-            text-decoration: none;
-            color: inherit;
-        }
-        body {
-              font-family: Arial, sans-serif;
-              text-align: center;
-             
-            background-image: url('images/_a29bcb48-62e6-4455-ba54-a8576d6e0144.jpeg');
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center;
-        
-          }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1); /* Sombra en la tabla */
-            background: #ddd;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-        }
-        th {
-            background-color: #0fa19ab1;
-        }
-        .search-bar {
-            margin-bottom: 20px;
-            border-radius: 50%;
-        }
-        .back-arrow {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            font-size: 24px;
-        }
-        /* Estilos para los campos de entrada y el botón del formulario */
-input, button {
-    border: 1px solid #40e30e; /* Borde de color ligero */
-    padding: 10px;
-    margin: 5px 0;
-    border-radius: 5px; /* Bordes redondeados */
-    box-shadow: 0 2px 4px rgba(14, 236, 10, 0.262); /* Sombra ligera */
-    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Transición suave */
-}
-
-input:hover, button:hover {
-    border-color: #007bff; /* Cambio de color de borde al pasar el puntero */
-    box-shadow: 0 2px 4px rgba(0, 0, 255, 0.3); /* Cambio de sombra al pasar el puntero */
-}
-
-        .button {
-            background-color: #f8fafc;
-            color: #000000;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            padding: 8px 16px;
-            margin: 0 5px;
-        }
-        .button:hover {
-            background-color: #00a87ba1;
-        }
-        .icon-box {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            display: flex;
-            align-items: center;
-        }
-
-        .icon {
-            width: 30px;
-            height: 30px;
-            background-color: #007bff; /* Color azul */
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: 50%;
-            margin-right: 10px;
-        }
-        .contact-info {
-              position: absolute;
-              bottom: 0;
-              left: 0;
-              width: 100%;
-              padding: 10px;
-              background-color: rgba(240, 240, 240, 0.8); /* Fondo semitransparente */
-              color: #333; /* Texto oscuro */
-              font-size: 14px;
-          }
-          .username-box {
-            background-color: rgba(255, 255, 255, 0.5); /* Fondo blanco semitransparente */
-            border: 2px solid blue; /* Bordes azules finos */
-            border-radius: 10px; /* Bordes redondeados */
-            padding: 5px 10px; /* Espacio interno */
-            box-shadow: 0 0 10px rgba(0, 0, 255, 0.5); /* Sombra azul ligera */
-        }
-    </style>
-</head>
-<body>
-    <div class="icon-box">
-        <div class="icon">U</div> <!-- U para "username" -->
-        <div class="username-box">
-            <span>username</span>
-        </div>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen"
+      href="utiles/bootstrap-5.3.3-dist/css/bootstrap.min.css"
+    />
+    <script src="utiles/bootstrap-5.3.3-dist/js/bootstrap.min.js"></script>
+    <script src="main.js"></script>
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h1 class="text-center">Gestionar Reservaciones</h1>
+      <button
+        type="button"
+        class="btn btn-primary mb-3"
+        data-bs-toggle="modal"
+        data-bs-target="#addUserModal"
+      >
+        Añadir Nuevo Usuario
+      </button>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre de Usuario</th>
+            <th>Nacionalidad</th>
+            <th>Contenido</th>
+            <th>Email</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="userTableBody">
+          <!-- Los datos se añadirán aquí dinámicamente -->
+        </tbody>
+      </table>
     </div>
-    
-    <a href="index.html" class="back-arrow">&#8592;</a>
-    <div class="container">
-        <h1>Gestionar Usuario</h1>
-        <div class="container">
-            <div class="search-bar">
-                <input type="text" id="searchInput" placeholder="Buscar Reservacion">
-                <button id="searchButton" class="button">Buscar</button>
-            </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nombre de Usuario</th>
-                        <th>País de Destino</th>
-                        <th>País de Llegada</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody id="userTableBody">
-                    <!-- Los datos de los usuarios se añadirán aquí dinámicamente -->
-                </tbody>
-            </table>
-            <h2>Añadir Nuevo Usuario</h2>
-            <form id="addUserForm">
-                <input type="text" id="userId" placeholder="ID">
-                <input type="text" id="userName" placeholder="Nombre de Usuario">
-                <input type="text" id="destinationCountry" placeholder="País de Destino">
-                <input type="text" id="arrivalCountry" placeholder="País de Llegada">
-                <button type="submit">Añadir</button>
+
+    <!-- Modal -->
+    <div
+      class="modal fade dismissible"
+      id="addUserModal"
+      tabindex="-1"
+      aria-labelledby="addUserModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addUserModalLabel">
+              Añadir Nuevo Usuario
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              data-bs-target="addUserModal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="addUserForm" class="needs-validation" novalidate>
+              <div class="mb-3">
+                <label for="userId" class="form-label">ID</label>
+                <input type="text" class="form-control" id="userId" required />
+                <div class="invalid-feedback">
+                  Por favor, introduce un ID válido.
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="userName" class="form-label"
+                  >Nombre de Usuario</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="userName"
+                  required
+                />
+                <div class="invalid-feedback">
+                  Por favor, introduce un nombre de usuario válido.
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="destinationCountry" class="form-label"
+                  >Nacionalidad</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="destinationCountry"
+                  required
+                />
+                <div class="invalid-feedback">
+                  Por favor, introduce una nacionalidad válida.
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="arrivalCountry" class="form-label">Contenido</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="arrivalCountry"
+                  required
+                />
+                <div class="invalid-feedback">
+                  Por favor, introduce contenido válido.
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="userEmail" class="form-label">Email</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="userEmail"
+                  required
+                />
+                <div class="invalid-feedback">
+                  Por favor, introduce un email válido.
+                </div>
+              </div>
+              <button
+                type="submit"
+                class="btn btn-primary"
+                data-bs-dismiss="modal"
+                data-bs-target="addUserModal"
+              >
+                Añadir
+              </button>
             </form>
+          </div>
         </div>
-    
-        <script>
-            // Aquí irá el código JavaScript
-            document.addEventListener('DOMContentLoaded', function() {
-    // Función para añadir un nuevo usuario
-    document.getElementById('addUserForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        var id = document.getElementById('userId').value;
-        var name = document.getElementById('userName').value;
-        var destination = document.getElementById('destinationCountry').value;
-        var arrival = document.getElementById('arrivalCountry').value;
-        addUser(id, name, destination, arrival);
-        this.reset();
-    });
+      </div>
+    </div>
 
-    // Función para añadir un usuario a la tabla
-    function addUser(id, name, destination, arrival) {
-        var tbody = document.getElementById('userTableBody');
-        var tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td>${id}</td>
-            <td>${name}</td>
-            <td>${destination}</td>
-            <td>${arrival}</td>
-            <td>
-                <button class="button modify">Modificar</button>
-                <button class="button delete">Eliminar</button>
-            </td>
-        `;
-        tbody.appendChild(tr);
-
-        // Añadir funcionalidad a los botones de modificación y eliminación
-        tr.querySelector('.modify').addEventListener('click', function() {
-            modifyUser(tr);
-        });
-        tr.querySelector('.delete').addEventListener('click', function() {
-            deleteUser(tr);
-        });
-    }
-
-    // Función para modificar un usuario
-    function modifyUser(row) {
-        // Aquí puedes implementar la lógica para modificar un usuario
-        console.log('Modificar usuario:', row);
-    }
-
-    // Función para eliminar un usuario
-    function deleteUser(row) {
-        row.parentNode.removeChild(row);
-    }
-
-    // Función para buscar un usuario
-    document.getElementById('searchButton').addEventListener('click', function() {
-        var searchText = document.getElementById('searchInput').value;
-        var tbody = document.getElementById('userTableBody');
-        var rows = tbody.getElementsByTagName('tr');
-        for (var i = 0; i < rows.length; i++) {
-            var row = rows[i];
-            var nameCell = row.getElementsByTagName('td')[1];
-            if (nameCell) {
-                var textValue = nameCell.textContent || nameCell.innerText;
-                if (textValue.indexOf(searchText) > -1) {
-                    row.style.display = "";
-                } else {
-                    row.style.display = "none";
-                }
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var form = document.getElementById("addUserForm");
+        form.addEventListener(
+          "submit",
+          function (event) {
+            if (!form.checkValidity()) {
+              event.preventDefault();
+              event.stopPropagation();
             }
-        }
-    });
-});
-        </script> 
+            form.classList.add("was-validated");
+          },
+          false
+        );
+
+        document
+          .getElementById("addUserForm")
+          .addEventListener("submit", function (e) {
+            e.preventDefault();
+            var id = document.getElementById("userId").value;
+            var name = document.getElementById("userName").value;
+            var destination =
+              document.getElementById("destinationCountry").value;
+            var arrival = document.getElementById("arrivalCountry").value;
+            var email = document.getElementById("userEmail").value;
+
+            // Validación personalizada para el email
+            var emailRegex = /^[a-zA-Z0-9._-]+@gmail.com$/;
+            if (!emailRegex.test(email)) {
+              alert(
+                "El email no es válido. Debe tener al menos 5 letras y terminar en @gmail.com."
+              );
+              return;
+            }
+            document.getElementById("userEmail").value = "";
+            document.getElementById("userId").value = "";
+            document.getElementById("userName").value = "";
+            document.getElementById("destinationCountry").value = "";
+            arrival = document.getElementById("arrivalCountry").value = "";
+            // Aquí puedes añadir la lógica para añadir los datos a la tabla
+            var tbody = document.getElementById("userTableBody");
+            var tr = document.createElement("tr");
+            tr.innerHTML = `
+                    <td>${id}</td>
+                    <td>${name}</td>
+                    <td>${destination}</td>
+                    <td>${arrival}</td>
+                    <td>${email}</td>
+                    <td>
+                        <button class="btn btn-warning">Modificar</button>
+                        <button class="btn btn-danger">Eliminar</button>
+                    </td>
+                `;
+            tbody.appendChild(tr);
+          });
+      });
+    </script>
+  </body>
 </html>
