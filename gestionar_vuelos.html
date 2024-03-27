@@ -1,229 +1,389 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="aerotravels" content="width=device-width, initial-scale=1.0">
-    <title>Gestionar Vuelos</title>
-    <style>
-        /* Estilos generales */
-        a, a:visited, a:hover, a:active {
-            text-decoration: none;
-            color: inherit;
-        }
-        body {
-              font-family: Arial, sans-serif;
-              text-align: center;
-             
-            background-image: url('images/_a29bcb48-62e6-4455-ba54-a8576d6e0144.jpeg');
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center;
-        
-          }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1); /* Sombra en la tabla */
-            background: #ddd;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-        }
-        th {
-            background-color: #0fa181a6;
-        }
-        .search-bar {
-            margin-bottom: 20px;
-            border-radius: 50%;
-        }
-        .back-arrow {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            font-size: 24px;
-        }
-        /* Estilos para los campos de entrada y el botón del formulario */
-input, button {
-    border: 1px solid #40e30e; /* Borde de color ligero */
-    padding: 10px;
-    margin: 5px 0;
-    border-radius: 5px; /* Bordes redondeados */
-    box-shadow: 0 2px 4px rgba(14, 236, 10, 0.262); /* Sombra ligera */
-    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Transición suave */
-}
-
-input:hover, button:hover {
-    border-color: #007bff; /* Cambio de color de borde al pasar el puntero */
-    box-shadow: 0 2px 4px rgba(0, 0, 255, 0.3); /* Cambio de sombra al pasar el puntero */
-}
-
-        .button {
-            background-color: #f8fafc;
-            color: #000000;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            padding: 8px 16px;
-            margin: 0 5px;
-        }
-        .button:hover {
-            background-color: #00a8a5aa;
-        }
-        .icon-box {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            display: flex;
-            align-items: center;
-        }
-
-        .icon {
-            width: 30px;
-            height: 30px;
-            background-color: #007bff; /* Color azul */
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: 50%;
-            margin-right: 10px;
-        }
-        .contact-info {
-              position: absolute;
-              bottom: 0;
-              left: 0;
-              width: 100%;
-              padding: 10px;
-              background-color: rgba(240, 240, 240, 0.8); /* Fondo semitransparente */
-              color: #333; /* Texto oscuro */
-              font-size: 14px;
-          }
-          .username-box {
-            background-color: rgba(255, 255, 255, 0.5); /* Fondo blanco semitransparente */
-            border: 2px solid blue; /* Bordes azules finos */
-            border-radius: 10px; /* Bordes redondeados */
-            padding: 5px 10px; /* Espacio interno */
-            box-shadow: 0 0 10px rgba(0, 0, 255, 0.5); /* Sombra azul ligera */
-        }
-    
-    </style>
-</head>
-<div class="icon-box">
-    <div class="icon">U</div> <!-- U para "username" -->
-    <div class="username-box">
-        <span>username</span>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gestión de Vuelos</title>
+    <link
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.14.0/jquery.validate.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h1 class="text-center">Gestión de Vuelos</h1>
+      <div class="d-flex justify-content-between">
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-toggle="modal"
+          data-target="#addFlightModal"
+        >
+          Añadir Vuelo
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-toggle="modal"
+          data-target="#searchFlightModal"
+        >
+          Buscar Vuelos
+        </button>
+      </div>
+      <table class="table table-striped mt-3">
+        <thead>
+          <tr>
+            <th>ID Vuelo</th>
+            <th>Fecha de Partida</th>
+            <th>Fecha de Llegada</th>
+            <th>País de Origen</th>
+            <th>País Destino</th>
+            <th>Modelo de Avión</th>
+            <th>Capacidad Máx</th>
+            <th>Cantidad de Pasajes Disponibles</th>
+          </tr>
+        </thead>
+        <tbody id="flightTableBody">
+          <!-- Los datos se añadirán aquí dinámicamente -->
+        </tbody>
+      </table>
     </div>
-</div>
 
-<a href="index.html" class="back-arrow">&#8592;</a>
-<div class="container">
-    <h1>Gestionar Vuelos</h1>
-    <div class="container">
-        <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="Buscar usuario">
-            <button id="searchButton" class="button">Buscar</button>
+    <!-- Modal para Añadir Vuelo -->
+    <div class="modal fade" id="addFlightModal" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">
+              &times;
+            </button>
+            <h4 class="modal-title">Añadir Vuelo</h4>
+          </div>
+          <form role="form" id="addFlightForm">
+            <div class="modal-body">
+              <div class="form-group">
+                <label class="control-label" for="flightId">ID Vuelo:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="flightId"
+                  name="flightId"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label class="control-label" for="departureDate"
+                  >Fecha de Partida:</label
+                >
+                <input
+                  type="date"
+                  class="form-control"
+                  id="departureDate"
+                  name="departureDate"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label class="control-label" for="arrivalDate"
+                  >Fecha de Llegada:</label
+                >
+                <input
+                  type="date"
+                  class="form-control"
+                  id="arrivalDate"
+                  name="arrivalDate"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label class="control-label" for="originCountry"
+                  >País de Origen:</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="originCountry"
+                  name="originCountry"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label class="control-label" for="destinationCountry"
+                  >País Destino:</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="destinationCountry"
+                  name="destinationCountry"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label class="control-label" for="airplaneModel"
+                  >Modelo de Avión:</label
+                >
+                <select
+                  class="form-control"
+                  id="airplaneModel"
+                  name="airplaneModel"
+                  required
+                >
+                  <option value="">Selecciona un modelo</option>
+                  <option value="Boeing 747">Boeing 747</option>
+                  <option value="Airbus A380">Airbus A380</option>
+                  <option value="Boeing 777">Boeing 777</option>
+                  <option value="Airbus A320">Airbus A320</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="control-label" for="maxCapacity"
+                  >Capacidad Máx:</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  id="maxCapacity"
+                  name="maxCapacity"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label class="control-label" for="availablePassengers"
+                  >Cantidad de Pasajes Disponibles:</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  id="availablePassengers"
+                  name="availablePassengers"
+                  required
+                />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-default"
+                data-dismiss="modal"
+              >
+                Cerrar
+              </button>
+              <button type="submit" class="btn btn-success" id="btnSaveIt">
+                Guardar
+              </button>
+            </div>
+          </form>
         </div>
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre de Usuario</th>
-                    <th>País de Destino</th>
-                    <th>País de Llegada</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody id="userTableBody">
-                <!-- Los datos de los usuarios se añadirán aquí dinámicamente -->
-            </tbody>
-        </table>
-        <h2>Añadir Nuevo Usuario</h2>
-        <form id="addUserForm">
-            <input type="text" id="userId" placeholder="ID">
-            <input type="text" id="userName" placeholder="avión">
-            <input type="text" id="destinationCountry" placeholder="País de Destino">
-            <input type="text" id="arrivalCountry" placeholder="País de Llegada">
-            <button type="submit">Añadir</button>
-        </form>
+      </div>
+    </div>
+
+    <!-- Modal para Buscar Vuelos -->
+    <div class="modal fade" id="searchFlightModal" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">
+              &times;
+            </button>
+            <h4 class="modal-title">Buscar Vuelos</h4>
+          </div>
+          <form role="form" id="searchFlightForm">
+            <div class="modal-body">
+              <div class="form-group">
+                <label class="control-label" for="searchDepartureDate"
+                  >Fecha de Partida:</label
+                >
+                <input
+                  type="date"
+                  class="form-control"
+                  id="searchDepartureDate"
+                  name="searchDepartureDate"
+                />
+              </div>
+              <div class="form-group">
+                <label class="control-label" for="searchOriginCountry"
+                  >País de Origen:</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="searchOriginCountry"
+                  name="searchOriginCountry"
+                />
+              </div>
+              <div class="form-group">
+                <label class="control-label" for="searchDestinationCountry"
+                  >País Destino:</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="searchDestinationCountry"
+                  name="searchDestinationCountry"
+                />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-default"
+                data-dismiss="modal"
+              >
+                Cerrar
+              </button>
+              <button type="submit" class="btn btn-success" id="btnSearchIt">
+                Buscar
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
 
     <script>
-        // Aquí irá el código JavaScript
-        document.addEventListener('DOMContentLoaded', function() {
-// Función para añadir un nuevo vuelo
-document.getElementById('addUserForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    var id = document.getElementById('userId').value;
-    var name = document.getElementById('userName').value;
-    var destination = document.getElementById('destinationCountry').value;
-    var arrival = document.getElementById('arrivalCountry').value;
-    addUser(id, name, destination, arrival);
-    this.reset();
-});
+      $(document).ready(function () {
+        $("#addFlightForm").validate({
+          rules: {
+            flightId: {
+              required: true,
+              minlength: 2,
+            },
+            departureDate: {
+              required: true,
+              date: true,
+            },
+            arrivalDate: {
+              required: true,
+              date: true,
+            },
+            originCountry: {
+              required: true,
+              minlength: 2,
+            },
+            destinationCountry: {
+              required: true,
+              minlength: 2,
+            },
+            airplaneModel: {
+              required: true,
+            },
+            maxCapacity: {
+              required: true,
+              min: 1,
+            },
+            availablePassengers: {
+              required: true,
+              min: 0,
+              max: function () {
+                return $("#maxCapacity").val();
+              },
+            },
+          },
+          messages: {
+            flightId: {
+              required: "Por favor, introduce un ID de vuelo.",
+              minlength: "El ID de vuelo debe tener al menos 2 caracteres.",
+            },
+            departureDate: {
+              required: "Por favor, selecciona una fecha de partida.",
+              date: "Por favor, introduce una fecha válida.",
+            },
+            arrivalDate: {
+              required: "Por favor, selecciona una fecha de llegada.",
+              date: "Por favor, introduce una fecha válida.",
+            },
+            originCountry: {
+              required: "Por favor, introduce un país de origen.",
+              minlength: "El país de origen debe tener al menos 2 caracteres.",
+            },
+            destinationCountry: {
+              required: "Por favor, introduce un país de destino.",
+              minlength: "El país de destino debe tener al menos 2 caracteres.",
+            },
+            airplaneModel: {
+              required: "Por favor, selecciona un modelo de avión.",
+            },
+            maxCapacity: {
+              required: "Por favor, introduce una capacidad máxima.",
+              min: "La capacidad máxima debe ser al menos 1.",
+            },
+            availablePassengers: {
+              required:
+                "Por favor, introduce la cantidad de pasajes disponibles.",
+              min: "La cantidad de pasajes disponibles debe ser al menos 0.",
+              max: "La cantidad de pasajes disponibles no puede ser mayor que la capacidad máxima.",
+            },
+          },
 
-// Función para añadir un vuelo a la tabla
-function addUser(id, name, destination, arrival) {
-    var tbody = document.getElementById('userTableBody');
-    var tr = document.createElement('tr');
-    tr.innerHTML = `
-        <td>${id}</td>
-        <td>${name}</td>
-        <td>${destination}</td>
-        <td>${arrival}</td>
-        <td>
-            <button class="button modify">Modificar</button>
-            <button class="button delete">Eliminar</button>
-        </td>
-    `;
-    tbody.appendChild(tr);
+          submitHandler: function (form) {
+            addFlightToTable(form);
+          },
+        });
 
-    // Añadir funcionalidad a los botones de modificación y eliminación
-    tr.querySelector('.modify').addEventListener('click', function() {
-        modifyUser(tr);
-    });
-    tr.querySelector('.delete').addEventListener('click', function() {
-        deleteUser(tr);
-    });
-}
+        $("#searchFlightForm").validate({
+          rules: {
+            searchDepartureDate: {
+              date: true,
+            },
+            searchOriginCountry: {
+              minlength: 2,
+            },
+            searchDestinationCountry: {
+              minlength: 2,
+            },
+          },
+          messages: {
+            searchDepartureDate: {
+              date: "Por favor, introduce una fecha válida.",
+            },
+            searchOriginCountry: {
+              minlength: "El país de origen debe tener al menos 2 caracteres.",
+            },
+            searchDestinationCountry: {
+              minlength: "El país de destino debe tener al menos 2 caracteres.",
+            },
+          },
+          submitHandler: function (form) {
+            form.submit();
+          },
+        });
+      });
+      function addFlightToTable(form) {
+        form.preventDefault(); // Evita el envío del formulario por defecto
+        var flightId = $("#flightId").val();
+        var departureDate = $("#departureDate").val();
+        var arrivalDate = $("#arrivalDate").val();
+        var originCountry = $("#originCountry").val();
+        var destinationCountry = $("#destinationCountry").val();
+        var airplaneModel = $("#airplaneModel").val();
+        var maxCapacity = $("#maxCapacity").val();
+        var availablePassengers = $("#availablePassengers").val();
 
-// Función para modificar un usuario
-function modifyUser(row) {
-    // Aquí puedes implementar la lógica para modificar un vuelo
-    console.log('Modificar vuelo:', row);
-}
-
-// Función para eliminar un vuelo
-function deleteUser(row) {
-    row.parentNode.removeChild(row);
-}
-
-// Función para buscar un vuelo
-document.getElementById('searchButton').addEventListener('click', function() {
-    var searchText = document.getElementById('searchInput').value;
-    var tbody = document.getElementById('userTableBody');
-    var rows = tbody.getElementsByTagName('tr');
-    for (var i = 0; i < rows.length; i++) {
-        var row = rows[i];
-        var nameCell = row.getElementsByTagName('td')[1];
-        if (nameCell) {
-            var textValue = nameCell.textContent || nameCell.innerText;
-            if (textValue.indexOf(searchText) > -1) {
-                row.style.display = "";
-            } else {
-                row.style.display = "none";
-            }
-        }
-    }
-});
-});
-    </script> 
-</body>
+        var newRow =
+          "<tr><td>" +
+          flightId +
+          "</td><td>" +
+          departureDate +
+          "</td><td>" +
+          arrivalDate +
+          "</td><td>" +
+          originCountry +
+          "</td><td>" +
+          destinationCountry +
+          "</td><td>" +
+          airplaneModel +
+          "</td><td>" +
+          maxCapacity +
+          "</td><td>" +
+          availablePassengers +
+          "</td></tr>";
+        $("#flightTableBody").append(newRow);
+        $("#addFlightModal").modal("hide");
+      }
+    </script>
+  </body>
 </html>
