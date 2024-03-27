@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gestión de Vuelos</title>
     <link
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
       rel="stylesheet"
+      type="text/css"
+      media="screen"
+      href="utiles/bootstrap-5.3.3-dist/css/bootstrap.min.css"
     />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.14.0/jquery.validate.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-  </head>
+    <script src="utiles/bootstrap-5.3.3-dist/js/bootstrap.min.js"></script>
+    <script src="main.js"></script>
   <body>
     <div class="container mt-5">
       <h1 class="text-center">Gestión de Vuelos</h1>
@@ -352,33 +352,38 @@
           },
         });
       });
-      $("#addFlightForm").on("submit", function (event) {
-          event.preventDefault();
-          var flightId = $("#flightId").val();
-          var departureDate = $("#departureDate").val();
-          var arrivalDate = $("#arrivalDate").val();
-          var originCountry = $("#originCountry").val();
-          var destinationCountry = $("#destinationCountry").val();
-          var airplaneModel = $("#airplaneModel").val();
-          var maxCapacity = $("#maxCapacity").val();
-          var availablePassengers = $("#availablePassengers").val();
+      function addFlightToTable(form) {
+        form.preventDefault(); // Evita el envío del formulario por defecto
+        var flightId = $("#flightId").val();
+        var departureDate = $("#departureDate").val();
+        var arrivalDate = $("#arrivalDate").val();
+        var originCountry = $("#originCountry").val();
+        var destinationCountry = $("#destinationCountry").val();
+        var airplaneModel = $("#airplaneModel").val();
+        var maxCapacity = $("#maxCapacity").val();
+        var availablePassengers = $("#availablePassengers").val();
 
-          var newRow = `
-            <tr>
-              <td>${flightId}</td>
-              <td>${departureDate}</td>
-              <td>${arrivalDate}</td>
-              <td>${originCountry}</td>
-              <td>${destinationCountry}</td>
-              <td>${airplaneModel}</td>
-              <td>${maxCapacity}</td>
-              <td>${availablePassengers}</td>
-            </tr>
-          `;
-          $("#flightTableBody").append(newRow);
-          $("#addFlightModal").modal("hide");
-        });
-      });
+        var newRow =
+          "<tr><td>" +
+          flightId +
+          "</td><td>" +
+          departureDate +
+          "</td><td>" +
+          arrivalDate +
+          "</td><td>" +
+          originCountry +
+          "</td><td>" +
+          destinationCountry +
+          "</td><td>" +
+          airplaneModel +
+          "</td><td>" +
+          maxCapacity +
+          "</td><td>" +
+          availablePassengers +
+          "</td></tr>";
+        $("#flightTableBody").append(newRow);
+        $("#addFlightModal").modal("hide");
+      }
     </script>
   </body>
 </html>
