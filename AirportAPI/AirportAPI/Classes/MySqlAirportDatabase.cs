@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 using System;
+using System.Text;
 
 namespace AirportAPI.Classes
 {
@@ -14,6 +15,10 @@ namespace AirportAPI.Classes
         {
             ConnectionString = Startup.DBConnectionString;
         }
+        public async Task<User> GetUser(int userId)
+        {
+            throw new System.NotImplementedException();
+        }
 
         public async Task<User> AddUser(User user)
         {
@@ -24,11 +29,16 @@ namespace AirportAPI.Classes
                 using (var connection = new MySqlConnection(ConnectionString))
                 {
                     connection.Open();
-                    var sql = $"CALL {StoredProcedures.AddUser}";
+
+                    var sqlBuilder = new StringBuilder();
+                    sqlBuilder.Append("INSERT INTO User (name, surname, birthday, nationality, email) ");
+                    sqlBuilder.Append("VALUES(@name, @surname, @birthday, @nationality)");
+
+                    var sql = sqlBuilder.ToString();
 
                     using (var command = new MySqlCommand(sql, connection))
                     {
-                        command.CommandType = System.Data.CommandType.StoredProcedure;
+                        command.CommandType = System.Data.CommandType.TableDirect;
 
                         command.Parameters.AddWithValue("@name",        user.Name);
                         command.Parameters.AddWithValue("@surname",     user.Surname); 
@@ -62,12 +72,25 @@ namespace AirportAPI.Classes
                             // Log error
                             throw;
                         }
-
-                        //command.ExecuteNonQuery();
                     }
                 };
 
                 return newUser;
+            });
+
+            return await task;
+        }
+
+        public async Task<User> UpdateUser(User user)
+        {
+            User updatedUser;
+
+            Task<User> task = Task.Run(() =>
+            {
+                var connection = new MySqlConnection(ConnectionString);
+                connection.Open();
+
+                return updatedUser;
             });
 
             return await task;
@@ -82,11 +105,14 @@ namespace AirportAPI.Classes
                 using (var connection = new MySqlConnection(ConnectionString))
                 {
                     connection.Open();
-                    var sql = "";
+                    var sql = "DELETE FROM User WHERE UserId = @userId";
 
                     using (var command = new MySqlCommand(sql, connection))
                     {
+                        command.CommandType = System.Data.CommandType.TableDirect;
+                        command.Parameters.AddWithValue("userId", userId);
 
+                        command.ExecuteNonQuery();
                     }
                 }
 
@@ -94,16 +120,6 @@ namespace AirportAPI.Classes
             });
 
             return await task;
-        }
-
-        public async Task<User> GetUser(int userId)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public async Task<User> UpdateUser(User user)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }
