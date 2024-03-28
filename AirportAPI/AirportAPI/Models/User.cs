@@ -1,10 +1,15 @@
-﻿namespace AirportAPI.Models
+﻿using System;
+using System.Xml.Linq;
+
+namespace AirportAPI.Models
 {
     public class User
     {
-        public int UserId { get; set; }
-        public string UserName { get; set; }
-        public string Origin { get; set; }
-        public string Destination { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Surname { get; set; }
+        public DateTime Birthday { get; set; }
+        public string Nacionality { get; set; }
+        public string Email { get; set; }
     }
 }

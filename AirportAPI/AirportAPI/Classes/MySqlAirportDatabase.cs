@@ -1,6 +1,7 @@
 ﻿using AirportAPI.Models;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
+using System;
 
 namespace AirportAPI.Classes
 {
@@ -16,33 +17,83 @@ namespace AirportAPI.Classes
 
         public async Task<User> AddUser(User user)
         {
+            User newUser;
+
             Task<User> task = Task.Run(() =>
             {
                 using (var connection = new MySqlConnection(ConnectionString))
                 {
                     connection.Open();
-                    using (var command = new MySqlCommand(StoredProcedureNames.AddUser, connection))
+                    var sql = $"CALL {StoredProcedures.AddUser}";
+
+                    using (var command = new MySqlCommand(sql, connection))
                     {
                         command.CommandType = System.Data.CommandType.StoredProcedure;
 
-                        command.Parameters.AddWithValue("@name", user.UserName);
-                        command.Parameters.AddWithValue("@origin", user.Origin);
-                        command.Parameters.AddWithValue("@destination", user.Destination);
+                        command.Parameters.AddWithValue("@name",        user.Name);
+                        command.Parameters.AddWithValue("@surname",     user.Surname); 
+                        command.Parameters.AddWithValue("@birthday",    user.Birthday);
+                        command.Parameters.AddWithValue("@nationality", user.Nacionality);
+                        command.Parameters.AddWithValue("@email",       user.Email);
 
-                        command.ExecuteNonQuery();
+                        try
+                        {
+                            using (MySqlDataReader reader = command.ExecuteReader())
+                            {
+                                if (reader.HasRows)
+                                {
+                                    newUser = new User();
+
+                                    newUser.Id = reader.GetInt32(0);
+                                    newUser.Name = reader.GetString(1);
+                                    newUser.Surname = reader.GetString(2);
+                                    newUser.Birthday = reader.GetDateTime(3);
+                                    newUser.Nacionality = reader.GetString(4);
+                                    newUser.Email = reader.GetString(5);
+                                }
+                                else
+                                {
+                                    throw new Exception("Failed to retrieve a user just added to the DB");
+                                }
+                            }
+                        }
+                        catch(Exception exc)
+                        {
+                            // Log error
+                            throw;
+                        }
+
+                        //command.ExecuteNonQuery();
                     }
                 };
 
-                return user;
+                return newUser;
             });
-            var newUser = await task;
 
-            return newUser;
+            return await task;
         }
 
         public async Task<int> DeleteUser(int userId)
         {
-            throw new System.NotImplementedException();
+            int newUserId = 0;
+
+            Task<int> task = Task.Run(() =>
+            {
+                using (var connection = new MySqlConnection(ConnectionString))
+                {
+                    connection.Open();
+                    var sql = "";
+
+                    using (var command = new MySqlCommand(sql, connection))
+                    {
+
+                    }
+                }
+
+                return newUserId;
+            });
+
+            return await task;
         }
 
         public async Task<User> GetUser(int userId)

@@ -53,13 +53,8 @@ namespace AirportAPI.Controllers
         {
             try
             {
-                Task<User> userTask = Task.Run(() =>
-                {
-                    return AirportDatabase.AddUser(user);
-                });
-
-                User result = await userTask;
-                return result;
+                User result = await AirportDatabase.AddUser(user);
+                return Ok(result);
             }
             catch (Exception exc)
             {
