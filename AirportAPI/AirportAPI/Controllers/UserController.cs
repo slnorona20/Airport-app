@@ -2,6 +2,7 @@
 using AirportAPI.Exceptions;
 using AirportAPI.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
@@ -16,9 +17,11 @@ namespace AirportAPI.Controllers
     public class UserController : ControllerBase, IUserController
     {
         protected IAirportDatabase AirportDatabase;
+        private readonly ILogger<UserController> _logger;
 
-        public UserController(JsonAirportDatabase database)
+        public UserController(ILogger<UserController> logger, JsonAirportDatabase database)
         {
+            _logger = logger;
             AirportDatabase = database;
         }
 
@@ -38,6 +41,8 @@ namespace AirportAPI.Controllers
             }
             catch(Exception exc)
             {
+                _logger.LogError(exc.Message);
+
                 if(exc is ObjectNotFoundException)
                 {
                     return NotFound(id);

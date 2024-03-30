@@ -15,36 +15,22 @@ namespace AirportAPI.Classes
         {
             ConnectionString = Startup.DBConnectionString;
         }
+
         public async Task<User> GetUser(int userId)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public async Task<User> AddUser(User user)
-        {
-            User newUser;
-
             Task<User> task = Task.Run(() =>
             {
+                User user;
                 using (var connection = new MySqlConnection(ConnectionString))
                 {
                     connection.Open();
 
-                    var sqlBuilder = new StringBuilder();
-                    sqlBuilder.Append("INSERT INTO User (name, surname, birthday, nationality, email) ");
-                    sqlBuilder.Append("VALUES(@name, @surname, @birthday, @nationality)");
-
-                    var sql = sqlBuilder.ToString();
-
-                    using (var command = new MySqlCommand(sql, connection))
+                    using (var command = connection.CreateCommand()) 
                     {
-                        command.CommandType = System.Data.CommandType.TableDirect;
+                        command.CommandType = System.Data.CommandType.StoredProcedure;
+                        command.CommandText = "CALL spGetUser(@userId)";
 
-                        command.Parameters.AddWithValue("@name",        user.Name);
-                        command.Parameters.AddWithValue("@surname",     user.Surname); 
-                        command.Parameters.AddWithValue("@birthday",    user.Birthday);
-                        command.Parameters.AddWithValue("@nationality", user.Nacionality);
-                        command.Parameters.AddWithValue("@email",       user.Email);
+                        command.Parameters.AddWithValue("@userId", userId);
 
                         try
                         {
@@ -52,14 +38,14 @@ namespace AirportAPI.Classes
                             {
                                 if (reader.HasRows)
                                 {
-                                    newUser = new User();
+                                    user = new User();
 
-                                    newUser.Id = reader.GetInt32(0);
-                                    newUser.Name = reader.GetString(1);
-                                    newUser.Surname = reader.GetString(2);
-                                    newUser.Birthday = reader.GetDateTime(3);
-                                    newUser.Nacionality = reader.GetString(4);
-                                    newUser.Email = reader.GetString(5);
+                                    user.Id = reader.GetInt32(0);
+                                    user.Name = reader.GetString(1);
+                                    user.Surname = reader.GetString(2);
+                                    user.Birthday = reader.GetDateTime(3);
+                                    user.Nacionality = reader.GetString(4);
+                                    user.Email = reader.GetString(5);
                                 }
                                 else
                                 {
@@ -67,7 +53,44 @@ namespace AirportAPI.Classes
                                 }
                             }
                         }
-                        catch(Exception exc)
+                        catch 
+                        {
+                            throw;
+                        }
+                    }
+                }
+                return user;
+            });
+
+            return await task;
+        }
+
+        public async Task<User> AddUser(User user)
+        {
+            Task<User> task = Task.Run(async () =>
+            {
+                User newUser;
+                using (var connection = new MySqlConnection(ConnectionString))
+                {
+                    connection.Open();
+
+                    var sql = "CALL spAddUser(@username, @usersurname, @birthdate, @nationality, @email)";
+                    using (var command = new MySqlCommand(sql, connection))
+                    {
+                        command.CommandType = System.Data.CommandType.StoredProcedure;
+
+                        command.Parameters.AddWithValue("@username",    user.Name);
+                        command.Parameters.AddWithValue("@usersurname", user.Surname); 
+                        command.Parameters.AddWithValue("@birthdate",   user.Birthday);
+                        command.Parameters.AddWithValue("@nationality", user.Nacionality);
+                        command.Parameters.AddWithValue("@email",       user.Email);
+
+                        try
+                        {
+                            command.ExecuteNonQuery();
+                            newUser = await GetUserByEmail(user.Email);
+                        }
+                        catch
                         {
                             // Log error
                             throw;
@@ -76,6 +99,23 @@ namespace AirportAPI.Classes
                 };
 
                 return newUser;
+            });
+
+            return await task;
+        }
+
+        public async Task<User> GetUserByEmail(string email)
+        {
+            Task<User> task = Task.Run(() =>
+            {
+                User user = null;
+
+                using (var connection = new MySqlConnection(ConnectionString))
+                {
+
+                }
+                    
+                return user;
             });
 
             return await task;
