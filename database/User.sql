@@ -1,24 +1,24 @@
 /* DROP DATABASE IF EXISTS Airport; */
 
-// Crear la base de datos
+/* Crear la base de datos */
 CREATE DATABASE Airport;
 
-//--------------------------------------------------------------
+/*/--------------------------------------------------------------
 // Crear la tabla "AirportUser"
 // Crear todos los "stored procedure" del model User
-//---------------------------------------------------------------
+//---------------------------------------------------------------*/
 SET AUTOCOMMIT = 0;
 
 CREATE TABLE AirportUser (
     user_id INT PRIMARY KEY,
-    user_name VARCHAR(50) NOT NULL,
-    user_surname VARCHAR(50) NOT NULL,
+    user_name VARCHAR(50),
+    user_surname VARCHAR(50),
     birthdate DATE,
     nationality VARCHAR(20),
     email VARCHAR(100)
 ) ENGINE = InnoDB;
 ALTER TABLE AirportUser
-ADD UNIQUE INDEX unique_email (email);s
+ADD UNIQUE INDEX unique_email (email);
 ALTER TABLE AirportUser
 MODIFY COLUMN user_id INT AUTO_INCREMENT;
 
@@ -31,22 +31,18 @@ CREATE PROCEDURE spAddUser(
     IN email VARCHAR(100)
 )
 BEGIN
-    INSERT INTO AirportUser 
-    (
-        user_name,
-        user_surname,
-        birthdate,
-        nationality,
-        email
-    )
-    VALUES 
-    (
-        username,
-        usersurname,
-        birthdate,
-        nationality,
-        email
-    );
+    INSERT INTO AirportUser  ( user_name, user_surname, birthdate, nationality, email )
+    VALUES ( username, usersurname, birthdate, nationality, email );
+    
+    SELECT     
+		user_id AS Id,
+        user_name AS Name,
+        user_surname AS Surname,
+        birthdate AS BirthDate,
+        nationality AS Nationality,
+        email AS Email
+	FROM AirportUser
+    WHERE user_id = ( SELECT LAST_INSERT_ID() AS user_id );
 END//
 DELIMITER ;
 
@@ -105,13 +101,3 @@ END //
 DELIMITER 
 
 COMMIT;
-
-//----------------------------------------------
-// Usar los "Stored procedures"
-//----------------------------------------------
-CALL spAddUser('Sergio', 'Noroña Pinero', '2002-01-22', 'Cubano', 'tuEmail@dominio');
-CALL spGetAllUsers();
-CALL spGetUser(1);
-CALL spGetUserByEmail('tuEmail@dominio');
-CALL spUpdateUser(1, 'Sergio Plutarco', 'Noroña Pinero', '2002-01-22', 'Cubano', 'tuEmail@dominio');
-CALL spDeleteUser(1)

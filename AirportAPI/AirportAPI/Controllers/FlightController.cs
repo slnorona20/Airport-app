@@ -1,44 +1,41 @@
 ﻿using AirportAPI.Classes;
 using AirportAPI.Exceptions;
 using AirportAPI.Models;
-using Microsoft.AspNetCore.Components.Routing;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace AirportAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase, IUserController
+    public class FlightController : ControllerBase, IFlightController
     {
         protected IAirportDatabase AirportDatabase;
         private readonly ILogger<UserController> _logger;
 
-        public UserController(ILogger<UserController> logger, MySqlAirportDatabase database)
+        public FlightController(ILogger<UserController> logger, MySqlAirportDatabase database)
         {
             _logger = logger;
             AirportDatabase = database;
         }
 
-        // GET api/<UserController>/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> Get(int id)
+        public async Task<ActionResult<Flight>> Get(int id)
         {
             try
             {
-                User result =  await AirportDatabase.GetUserAsync(id);
+                Flight result = await AirportDatabase.GetFlightAsync(id);
                 return result;
             }
-            catch(Exception exc)
+            catch (Exception exc)
             {
                 _logger.LogError(message: exc.Message);
 
-                if(exc is ObjectNotFoundException)
+                if (exc is ObjectNotFoundException)
                 {
                     return NotFound(id);
                 }
@@ -47,13 +44,12 @@ namespace AirportAPI.Controllers
             }
         }
 
-        // GET api/<UserController>/5
         [HttpGet]
-        public async Task<ActionResult<List<User>>> Get()
+        public async Task<ActionResult<List<Flight>>> Get()
         {
             try
             {
-                List<User> result = await AirportDatabase.GetAllUsersAsync();
+                List<Flight> result = await AirportDatabase.GetAllFlightsAsync();
                 return Ok(result);
             }
             catch (Exception exc)
@@ -65,13 +61,11 @@ namespace AirportAPI.Controllers
             }
         }
 
-        // POST api/<UserController>
-        [HttpPost]
-        public async Task<ActionResult<User>> Post([FromBody] User user)
+        public async Task<ActionResult<Flight>> Post([FromBody] Flight flight)
         {
             try
             {
-                User result = await AirportDatabase.AddUserAsync(user);
+                Flight result = await AirportDatabase.AddFlightAsync(flight);
                 return Ok(result);
             }
             catch (Exception exc)
@@ -80,43 +74,39 @@ namespace AirportAPI.Controllers
             }
         }
 
-        // PUT api/<UserController>/5
-        [HttpPut("{id}")]
-        public async Task<ActionResult<User>> Put(int id, [FromBody] User user)
+        public async Task<ActionResult<Flight>> Put(int id, [FromBody] Flight flight)
         {
             try
             {
-                User result = await AirportDatabase.UpdateUserAsync(user);
+                Flight result = await AirportDatabase.UpdateFlightAsync(flight);
                 return result;
             }
             catch (Exception exc)
             {
                 if (exc is ObjectNotFoundException)
                 {
-                    return NotFound(user);
+                    return NotFound(flight);
                 }
 
-                return BadRequest(exc.Message);
+                return BadRequest("Error");
             }
         }
 
-        // DELETE api/<UserController>/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
+        public async Task<ActionResult> Delete(int flightId)
         {
             try
             {
-                int deletedUserId = await AirportDatabase.DeleteUserAsync(id);
-                return Ok(deletedUserId);
+                int deletedFlightId = await AirportDatabase.DeleteFlightAsync(flightId);
+                return Ok(deletedFlightId);
             }
             catch (Exception exc)
             {
                 if (exc is ObjectNotFoundException)
                 {
-                    return NotFound(id);
+                    return NotFound(flightId);
                 }
 
-                return BadRequest(exc.Message);
+                return BadRequest("Error");
             }
         }
     }

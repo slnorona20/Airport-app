@@ -27,19 +27,21 @@ namespace AirportAPI.Classes
             DatabaseConfig = configBuilder.Build();
         }
 
-        public async Task<User> AddUser(User user)
+        public async Task<User> AddUserAsync(User user)
         {
             User newUser = await ExecuteDBAccess(fileLock, () => 
             {
                 List<User> users = GetUsers(); 
-                User lastUser = users.OrderBy(x => x.UserId).ToList()[^1];
+                User lastUser = users.OrderBy(x => x.Id).ToList()[^1];
 
                 users.Add(new User
                 {
-                    UserId = lastUser.UserId + 1,
-                    UserName = user.UserName,
-                    Origin = user.Origin,
-                    Destination = user.Destination
+                    Id = lastUser.Id + 1,
+                    Name = user.Name,
+                    Surname = user.Surname,
+                    BirthDate = user.BirthDate,
+                    Nationality = user.Nationality,
+                    Email = user.Email
                 });
 
                 SaveUsers(users);
@@ -50,12 +52,12 @@ namespace AirportAPI.Classes
             return newUser;
         }
 
-        public async Task<int> DeleteUser(int userId)
+        public async Task<int> DeleteUserAsync(int userId)
         {
             User user = await ExecuteDBAccess(fileLock, () =>
             {
                 List<User> users = GetUsers();
-                User user = users.FirstOrDefault(x => x.UserId == userId);
+                User user = users.FirstOrDefault(x => x.Id == userId);
 
                 if (user == null)
                 {
@@ -73,15 +75,15 @@ namespace AirportAPI.Classes
                 throw new ObjectNotFoundException($"User not found");
             }
 
-            return user.UserId;
+            return user.Id;
         }
 
-        public async Task<User> GetUser(int userId)
+        public async Task<User> GetUserAsync(int userId)
         {
             User user = await ExecuteDBAccess(fileLock, () =>
             {
                 List<User> users = GetUsers(); 
-                User user = users.FirstOrDefault(x => x.UserId == userId);
+                User user = users.FirstOrDefault(x => x.Id == userId);
 
                 return user;
             });
@@ -94,32 +96,34 @@ namespace AirportAPI.Classes
             return user;
         }
 
-        public async Task<User> UpdateUser(User user)
+        public async Task<User> UpdateUserAsync(User user)
         {
             User updatedUser = await ExecuteDBAccess(fileLock, () =>
             {
                 List<User> users = GetUsers(); 
-                User theUser = users.FirstOrDefault(x => x.UserId == user.UserId);
+                User theUser = users.FirstOrDefault(x => x.Id == user.Id);
 
                 if(theUser == null)
                 {
                     return null;
                 }
 
-                theUser.UserId = user.UserId;
-                theUser.UserName = user.UserName;
-                theUser.Origin = user.Origin;
-                theUser.Destination = user.Destination;
+                theUser.Id = user.Id;
+                theUser.Surname = user.Surname;
+                theUser.BirthDate = user.BirthDate;
+                theUser.Nationality = user.Nationality;
+                theUser.Email = user.Email;
 
-                theUser = users.Where(x => x.UserId == user.UserId).ToList()[0];
+                theUser = users.Where(x => x.Id == user.Id).ToList()[0];
                 SaveUsers(users);
 
                 return new User 
                 {
-                    UserId      = theUser.UserId,
-                    UserName    = theUser.UserName,
-                    Origin      = theUser.Origin,
-                    Destination = theUser.Destination
+                    Id      = theUser.Id,
+                    Surname = user.Surname,
+                    BirthDate = user.BirthDate,
+                    Nationality = user.Nationality,
+                    Email = user.Email
                 };
             });
 
@@ -129,6 +133,36 @@ namespace AirportAPI.Classes
             }
 
             return updatedUser;
+        }
+
+        public Task<List<User>> GetAllUsersAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Flight> GetFlightAsync(int flightId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<Flight>> GetAllFlightsAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Flight> AddFlightAsync(Flight flight)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Flight> UpdateFlightAsync(Flight flight)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> DeleteFlightAsync(int flightId)
+        {
+            throw new NotImplementedException();
         }
 
         protected List<User> GetUsers()

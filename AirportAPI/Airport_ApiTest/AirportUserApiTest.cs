@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using System;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -50,11 +51,13 @@ namespace Airport_ApiTest
             var url = ApiUrl;
            
             User user = new User 
-            { 
-                UserId = 0,
-                UserName = "Test",
-                Origin = "Havana",
-                Destination = "Madrid"
+            {
+                Id = 0,
+                Name = "John",
+                Surname = "Doe",
+                BirthDate = DateTime.Now.AddYears(-20),
+                Nationality = "Escoses",
+                Email = "john-doe@email.com"
             };
             var stringContent = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
 
@@ -72,10 +75,11 @@ namespace Airport_ApiTest
 
             User user = new User
             {
-                UserId = 1,
-                UserName = "Test",
-                Origin = "Madrid",
-                Destination = "Varadero"
+                Id = 1,
+                Surname = "Doe",
+                BirthDate = DateTime.Now.AddYears(-20),
+                Nationality = "Escoses",
+                Email = "john-doe@email.com"
             };
             var stringContent = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
 
