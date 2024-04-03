@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <_PublishTargetUrl>C:\Users\JorgeCalderon\MyProjects\Net6\Airport\AirportAPI\AirportAPI\bin\Release\net6.0</_PublishTargetUrl>
+    <History>True|2024-04-03T03:29:07.3469526Z;True|2024-04-03T16:15:56.2503315+13:00;True|2024-04-03T16:11:36.9255000+13:00;False|2024-04-03T16:10:58.7401490+13:00;True|2024-04-03T15:45:17.3313445+13:00;True|2024-04-03T15:36:59.6377904+13:00;False|2024-04-03T15:36:45.9423999+13:00;False|2024-04-03T15:36:26.1408107+13:00;True|2024-04-03T12:19:50.6267580+13:00;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+</Project>

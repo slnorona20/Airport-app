@@ -4,6 +4,8 @@ using AirportAPI.Models;
 using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using MySqlX.XDevAPI.Common;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -71,8 +73,13 @@ namespace AirportAPI.Controllers
         {
             try
             {
-                User result = await AirportDatabase.AddUserAsync(user);
-                return Ok(result);
+                Task task = Task.Run(() => { });
+                await task;
+
+                return Ok(JsonConvert.SerializeObject(user));
+
+                //User result = await AirportDatabase.AddUserAsync(user);
+                //return Ok(result);
             }
             catch (Exception exc)
             {
