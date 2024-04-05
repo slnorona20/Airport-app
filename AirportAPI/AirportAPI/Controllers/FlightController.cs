@@ -44,23 +44,22 @@ namespace AirportAPI.Controllers
             }
         }
 
-        [HttpGet]
-        public async Task<ActionResult<List<Flight>>> Get()
+        [HttpGet("{departureDate}/{searchOriginCountry}/{searchDestinationCountry}")]
+        public async Task<ActionResult<List<Flight>>> Get(DateTime departureDate, string searchOriginCountry, string searchDestinationCountry)
         {
             try
             {
-                List<Flight> result = await AirportDatabase.GetAllFlightsAsync();
+                List<Flight> result = await AirportDatabase.GetFlightsAsync(departureDate, searchOriginCountry, searchDestinationCountry);
                 return Ok(result);
             }
             catch (Exception exc)
             {
                 _logger.LogError(message: exc.Message);
-
-
                 return BadRequest(exc.Message);
             }
         }
 
+        [HttpPost]
         public async Task<ActionResult<Flight>> Post([FromBody] Flight flight)
         {
             try
@@ -74,7 +73,8 @@ namespace AirportAPI.Controllers
             }
         }
 
-        public async Task<ActionResult<Flight>> Put(int id, [FromBody] Flight flight)
+        [HttpPut]
+        public async Task<ActionResult<Flight>> Put([FromBody] Flight flight)
         {
             try
             {

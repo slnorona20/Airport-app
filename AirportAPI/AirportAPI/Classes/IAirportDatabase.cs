@@ -13,7 +13,7 @@ public interface IAirportDatabase
     Task<int> DeleteUserAsync(int userId);
 
     Task<Flight> GetFlightAsync(int flightId);
-    Task<List<Flight>> GetAllFlightsAsync();
+    Task<List<Flight>> GetFlightsAsync(DateTime departureDate, string searchOriginCountry, string searchDestinationCountry);
     Task<Flight> AddFlightAsync(Flight flight);
     Task<Flight> UpdateFlightAsync(Flight flight);
     Task<int> DeleteFlightAsync(int flightId);

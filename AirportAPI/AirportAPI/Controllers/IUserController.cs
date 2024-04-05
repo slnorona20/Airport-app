@@ -11,7 +11,7 @@ namespace AirportAPI.Controllers
         Task<ActionResult<User>> Get(int id);
         Task<ActionResult<List<User>>> Get();
         Task<ActionResult<User>> Post([FromBody] User user);
-        Task<ActionResult<User>> Put(int id, [FromBody] User user);
+        Task<ActionResult<User>> Put([FromBody] User user);
         Task<ActionResult> Delete(int userId);
     }
 }

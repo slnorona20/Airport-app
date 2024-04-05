@@ -52,6 +52,11 @@ namespace AirportAPI.Classes
             return newUser;
         }
 
+        public Task<List<Flight>> GetFlightsAsync(DateTime departureDate, string searchOriginCountry, string searchDestinationCountry)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<int> DeleteUserAsync(int userId)
         {
             User user = await ExecuteDBAccess(fileLock, () =>

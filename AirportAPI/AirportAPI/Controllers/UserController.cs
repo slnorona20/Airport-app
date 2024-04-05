@@ -73,13 +73,15 @@ namespace AirportAPI.Controllers
         {
             try
             {
+                /*
                 Task task = Task.Run(() => { });
                 await task;
 
                 return Ok(JsonConvert.SerializeObject(user));
+                */
 
-                //User result = await AirportDatabase.AddUserAsync(user);
-                //return Ok(result);
+                User result = await AirportDatabase.AddUserAsync(user);
+                return Ok(result);
             }
             catch (Exception exc)
             {
@@ -88,8 +90,8 @@ namespace AirportAPI.Controllers
         }
 
         // PUT api/<UserController>/5
-        [HttpPut("{id}")]
-        public async Task<ActionResult<User>> Put(int id, [FromBody] User user)
+        [HttpPut]
+        public async Task<ActionResult<User>> Put([FromBody] User user)
         {
             try
             {

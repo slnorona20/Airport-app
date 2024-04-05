@@ -6,7 +6,7 @@ namespace AirportAPI.Models
     {
         public int Id { get; set; }
         public string FlightId { get; set; }
-        public DateTime DepartDate { get; set; }
+        public DateTime DepartureDate { get; set; }
         public DateTime ArrivalDate { get; set; }
         public string OriginCountry { get; set; }
         public string DestinationCountry { get; set; }

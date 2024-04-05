@@ -13,7 +13,7 @@ CREATE TABLE AirportUser (
     user_id INT PRIMARY KEY,
     user_name VARCHAR(50),
     user_surname VARCHAR(50),
-    birthdate DATE,
+    birth_date DATE,
     nationality VARCHAR(20),
     email VARCHAR(100)
 ) ENGINE = InnoDB;
@@ -24,21 +24,21 @@ MODIFY COLUMN user_id INT AUTO_INCREMENT;
 
 DELIMITER //
 CREATE PROCEDURE spAddUser(
-    IN username VARCHAR(50), 
-    IN usersurname VARCHAR(50),
-    IN birthdate DATE,
+    IN userName VARCHAR(50), 
+    IN userSurname VARCHAR(50),
+    IN birthDate DATE,
     IN nationality VARCHAR(20),
     IN email VARCHAR(100)
 )
 BEGIN
-    INSERT INTO AirportUser  ( user_name, user_surname, birthdate, nationality, email )
-    VALUES ( username, usersurname, birthdate, nationality, email );
+    INSERT INTO AirportUser  ( user_name, user_surname, birth_date, nationality, email )
+    VALUES ( userName, userSurname, birthDate, nationality, email );
     
     SELECT     
 		user_id AS Id,
         user_name AS Name,
         user_surname AS Surname,
-        birthdate AS BirthDate,
+        birth_date AS BirthDate,
         nationality AS Nationality,
         email AS Email
 	FROM AirportUser
@@ -49,7 +49,7 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE spGetUser( IN userId INT )
 BEGIN
-	SELECT user_id, user_name, user_surname, birthdate, nationality, email
+	SELECT user_id, user_name, user_surname, birth_date, nationality, email
     FROM AirportUser 
     WHERE user_id = userId;
 END //
@@ -64,32 +64,33 @@ END //
 DELIMITER ;
 
 DELIMITER //
-CREATE PROCEDURE spGetUserByEmail( IN email VARCHAR(100) )
-BEGIN
-	SELECT user_id, user_name, user_surname, birthdate, nationality, email
-    FROM AirportUser 
-    WHERE email = email;
-END //
-DELIMITER ;
-
-DELIMITER //
 CREATE PROCEDURE spUpdateUser(
 	IN userId INT,
-	IN username VARCHAR(50), 
-    IN usersurname VARCHAR(50),
-    IN birthday DATE,
+	IN userName VARCHAR(50), 
+    IN userSurname VARCHAR(50),
+    IN birthDate DATE,
     IN nationality VARCHAR(20),
     IN email VARCHAR(100)
 )
 BEGIN
 	UPDATE AirportUser 
     SET
-		user_name = username,
-		user_surname = usersurname,
-		birthdate = birthday,
+		user_name = userName,
+		user_surname = usersurName,
+		birth_date = birthDate,
 		nationality = nationality,
         email = email
 	WHERE user_id = userId;
+    
+	SELECT     
+		user_id AS Id,
+        user_name AS Name,
+        user_surname AS Surname,
+        birth_date AS BirthDate,
+        nationality AS Nationality,
+        email AS Email
+	FROM AirportUser
+    WHERE user_id = userId;
 END //
 DELIMITER ;
 

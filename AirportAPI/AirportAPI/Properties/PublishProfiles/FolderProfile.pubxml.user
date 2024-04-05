@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project>
   <PropertyGroup>
     <_PublishTargetUrl>D:\Repository\GIT\Net6\Airport\AirportAPI\AirportAPI\bin\Release\net6.0</_PublishTargetUrl>
-    <History>True|2024-04-01T12:02:18.6757876Z;</History>
+    <History>True|2024-04-03T09:03:57.7741118Z;True|2024-04-02T01:02:18.6757876+13:00;</History>
     <LastFailureDetails />
   </PropertyGroup>
 </Project>
