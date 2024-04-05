@@ -372,33 +372,32 @@
         });
 
         function addFlightToTable(form) {
-			form.preventDefault(); // Evita el envío del formulario por defecto
-			
-			var flightData = {};
+          form.preventDefault(); // Evita el envío del formulario por defecto
 
-			$.ajax({
-				url: 'http://localhost:10000/api/flight',
-				method: 'POST', 
-				dataType: 'json',
-				contentType: 'application/json',
-				data: JSON.stringify({
-					Id: 0,
-					FlightId:          $("#flightId").val(),
-					DepartDate:        $("#departureDate").val(),
-					ArrivalDate:       $("#arrivalDate").val(),
-					OriginCountry:     $("#originCountry").val(),
-					DestinationCountry:$("#destinationCountry").val(),
-					AircraftModel:     $("#airplaneModel").val(),
-					MaxSeats:          $("#maxCapacity").val(),
-					AvailableSeats:    $("#availablePassengers").val(),				
-				}),
-				success: function(response) {
-					// Code to handle successful response
-					console.log(response);
-	
-					
-					// Añade el nuevo vuelo a la tabla
-					var newRow = `<tr>
+          var flightData = {};
+
+          $.ajax({
+            url: "http://localhost:9000/api/flight",
+            method: "POST",
+            dataType: "json",
+            contentType: "application/json",
+            data: JSON.stringify({
+              Id: 0,
+              FlightId: $("#flightId").val(),
+              DepartureDate: $("#departureDate").val(),
+              ArrivalDate: $("#arrivalDate").val(),
+              OriginCountry: $("#originCountry").val(),
+              DestinationCountry: $("#destinationCountry").val(),
+              AircraftModel: $("#airplaneModel").val(),
+              MaxSeats: $("#maxCapacity").val(),
+              AvailableSeats: $("#availablePassengers").val(),
+            }),
+            success: function (response) {
+              // Code to handle successful response
+              console.log(response);
+
+              // Añade el nuevo vuelo a la tabla
+              var newRow = `<tr>
 									<td>${response.FlightId}</td>
 									<td>${response.DepartureDate}</td>
 									<td>${response.ArrivalDate}</td>
@@ -408,25 +407,24 @@
 									<td>${response.MaxSeats}</td>
 									<td>${response.AvailableSeats}</td>
 								  </tr>`;
-					
-					 $("#flightTableBody").append(newRow);
-				},
-				error: function(xhr, status, error) {
-					// Code to handle errors
-					console.error(error);
-				}
-			});
+
+              $("#flightTableBody").append(newRow);
+            },
+            error: function (xhr, status, error) {
+              // Code to handle errors
+              console.error(error);
+            },
+          });
         }
 
         function searchFlights(form) {
- 
-		  var departureDate = $("#searchDepartureDate").val();
-		  var searchOriginCountry = $("#searchOriginCountry").val();
-		  var searchDestinationCountry = $("#searchDestinationCountry").val();
-		  
+          var departureDate = $("#searchDepartureDate").val();
+          var searchOriginCountry = $("#searchOriginCountry").val();
+          var searchDestinationCountry = $("#searchDestinationCountry").val();
+
           $.ajax({
             type: "GET",
-            url: `http://localhost:10000/api/flight/${departureDate}/${searchOriginCountry}/${searchDestinationCountry}`, // Actualiza esta ruta según tu configuración
+            url: `http://localhost:9000/api/flight/${departureDate}/${searchOriginCountry}/${searchDestinationCountry}`, // Actualiza esta ruta según tu configuración
             success: function (response) {
               // Limpia la tabla antes de añadir los nuevos resultados
               $("#flightTableBody").empty();

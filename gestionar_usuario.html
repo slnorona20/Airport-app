@@ -11,8 +11,8 @@
       href="utiles/bootstrap-5.3.3-dist/css/bootstrap.min.css"
     />
     <script src="utiles/bootstrap-5.3.3-dist/js/bootstrap.min.js"></script>
-    <!--script src="main.js"></script-->   
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!--script src="main.js"></script-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
   </head>
   <body>
@@ -162,29 +162,29 @@
               event.stopPropagation();
             }
             form.classList.add("was-validated");
-			
-			$.ajax({
-				url: 'http://localhost:10000/api/user',
-				method: 'POST', 
-				dataType: 'json',
-				contentType: 'application/json',
-				data: JSON.stringify({
-					Id:          0,
-					Name:        $("#userName").val(),
-					Surname:     $("#userSurname").val(),
-					BirthDate:   $("#birthDate").val(),
-					Nationality: $("#nationality").val(),
-					Email:       $("#userEmail").val()				
-				}),
-				success: function(response) {
-					// Code to handle successful response
-					console.log(response);
-				},
-				error: function(xhr, status, error) {
-					// Code to handle errors
-					console.error(error);
-				}
-			});
+
+            $.ajax({
+              url: "http://localhost:9000/api/user",
+              method: "POST",
+              dataType: "json",
+              contentType: "application/json",
+              data: JSON.stringify({
+                Id: 0,
+                Name: $("#userName").val(),
+                Surname: $("#userSurname").val(),
+                BirthDate: $("#birthDate").val(),
+                Nationality: $("#nationality").val(),
+                Email: $("#userEmail").val(),
+              }),
+              success: function (response) {
+                // Code to handle successful response
+                console.log(response);
+              },
+              error: function (xhr, status, error) {
+                // Code to handle errors
+                console.error(error);
+              },
+            });
           },
           false
         );
