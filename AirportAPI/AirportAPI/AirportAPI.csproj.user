@@ -4,5 +4,10 @@
     <Controller_SelectedScaffolderID>ApiControllerEmptyScaffolder</Controller_SelectedScaffolderID>
     <Controller_SelectedScaffolderCategoryPath>root/Common/Api</Controller_SelectedScaffolderCategoryPath>
     <NameOfLastUsedPublishProfile>D:\Repository\GIT\Net6\Airport\AirportAPI\AirportAPI\Properties\PublishProfiles\FolderProfile.pubxml</NameOfLastUsedPublishProfile>
+    <IsLinterEnabled>False</IsLinterEnabled>
+    <ShouldLintJavaScript>True</ShouldLintJavaScript>
+    <ShouldLintJavaScriptReact>True</ShouldLintJavaScriptReact>
+    <ShouldLintTypeScript>True</ShouldLintTypeScript>
+    <ShouldLintTypeScriptReact>True</ShouldLintTypeScriptReact>
   </PropertyGroup>
 </Project>

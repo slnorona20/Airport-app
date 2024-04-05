@@ -30,7 +30,7 @@ namespace Airport_ApiTest
         [Fact]
         public async void GetFlights_Test()
         {
-            var departureDate = DateTime.Today.ToString();
+            var departureDate = DateTime.Today.ToString("yyyy-MM-dd");
             var searchOriginCountry = "Cuba";
             var searchDestinationCountry = "Espana";
 
@@ -98,10 +98,10 @@ namespace Airport_ApiTest
         [Fact]
         public async void DeleteFight_Test()
         {
-            var url = $"{ApiUrl}/10";
+            var url = $"{ApiUrl}/1";
             HttpResponseMessage response = await HttpClient.DeleteAsync(url);
             var responseCode = response.StatusCode;
-            var responseContent = await response.Content.ReadAsStringAsync();
+             var responseContent = await response.Content.ReadAsStringAsync();
 
             response.EnsureSuccessStatusCode();
         }
