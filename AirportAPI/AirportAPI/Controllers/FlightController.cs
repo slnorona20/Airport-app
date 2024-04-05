@@ -92,18 +92,19 @@ namespace AirportAPI.Controllers
             }
         }
 
-        public async Task<ActionResult> Delete(int flightId)
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(int id)
         {
             try
             {
-                int deletedFlightId = await AirportDatabase.DeleteFlightAsync(flightId);
+                int deletedFlightId = await AirportDatabase.DeleteFlightAsync(id);
                 return Ok(deletedFlightId);
             }
             catch (Exception exc)
             {
                 if (exc is ObjectNotFoundException)
                 {
-                    return NotFound(flightId);
+                    return NotFound(id);
                 }
 
                 return BadRequest("Error");

@@ -263,6 +263,10 @@ namespace AirportAPI.Classes
                 {
                     command.CommandType = System.Data.CommandType.StoredProcedure;
 
+                    command.Parameters.AddWithValue("@departuredate", departureDate.ToString("yyyy-MM-dd"));
+                    command.Parameters.AddWithValue("@origincountry", searchOriginCountry);
+                    command.Parameters.AddWithValue("@destinationCountry", searchDestinationCountry);
+
                     using (var reader = await command.ExecuteReaderAsync()) 
                     {
                         if (reader.HasRows)
@@ -403,6 +407,7 @@ namespace AirportAPI.Classes
                 using (var command = new MySqlCommand("spDeleteFlight", connection))
                 {
                     command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("dbid", flightId);
 
                     await command.ExecuteNonQueryAsync();
                 }
